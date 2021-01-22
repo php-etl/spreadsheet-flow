@@ -12,7 +12,8 @@ class Loader implements LoaderInterface
 {
     public function __construct(
         private WriterInterface $writer
-    ) {}
+    ) {
+    }
 
     public function load(): \Generator
     {

@@ -10,7 +10,8 @@ class Extractor implements ExtractorInterface
     public function __construct(
         private SheetInterface $sheet,
         private int $skipLines = 0
-    ) {}
+    ) {
+    }
 
     public function extract(): iterable
     {
@@ -30,7 +31,7 @@ class Extractor implements ExtractorInterface
 
             if ($cellCount > $columnCount) {
                 $line = array_slice($line, 0, $columnCount, true);
-            } else if ($cellCount < $columnCount) {
+            } elseif ($cellCount < $columnCount) {
                 $line = array_pad($line, $columnCount - $cellCount, null);
             }
 

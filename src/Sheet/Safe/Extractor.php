@@ -10,7 +10,8 @@ class Extractor implements ExtractorInterface
     public function __construct(
         private SheetInterface $sheet,
         private int $skipLines = 0
-    ) {}
+    ) {
+    }
 
     public function extract(): iterable
     {

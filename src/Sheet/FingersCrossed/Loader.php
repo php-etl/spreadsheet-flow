@@ -12,7 +12,8 @@ class Loader implements LoaderInterface
 {
     public function __construct(
         private WriterInterface $writer
-    ) {}
+    ) {
+    }
 
     public function load(): \Generator
     {
@@ -22,12 +23,12 @@ class Loader implements LoaderInterface
 
             if ($isFirstLine === true) {
                 $this->writer->addRow(
-                    new Row(array_map(fn($value) => new Cell($value), array_keys($line)), null)
+                    new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
                 );
                 $isFirstLine = false;
             }
 
-            $line = new Row(array_map(fn($value) => new Cell($value), $line), null);
+            $line = new Row(array_map(fn ($value) => new Cell($value), $line), null);
 
             $this->writer->addRow($line);
 
