@@ -1,24 +1,16 @@
 <?php
 
-namespace Kiboko\Component\ETL\Flow\Spout\Sheet\FingersCrossed;
+namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Reader\SheetInterface;
-use Kiboko\Component\ETL\Contracts\ExtractorInterface;
+use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
-    /** @var SheetInterface */
-    private $sheet;
-    /** @var int */
-    private $skipLines;
-
     public function __construct(
-        SheetInterface $sheet,
-        int $skipLines = 0
-    ) {
-        $this->sheet = $sheet;
-        $this->skipLines = $skipLines;
-    }
+        private SheetInterface $sheet,
+        private int $skipLines = 0
+    ) {}
 
     public function extract(): iterable
     {
@@ -27,18 +19,18 @@ class Extractor implements ExtractorInterface
 
         $this->skipLines($iterator, $this->skipLines);
 
-        $columns = $iterator->current();
+        $columns = $iterator->current()->toArray();
         $columnCount = count($columns);
 
         while ($iterator->valid()) {
             $iterator->next();
 
-            $line = $iterator->current();
+            $line = $iterator->current()->toArray();
             $cellCount = count($line);
 
             if ($cellCount > $columnCount) {
                 $line = array_slice($line, 0, $columnCount, true);
-            } else if ($cellCount > $columnCount) {
+            } else if ($cellCount < $columnCount) {
                 $line = array_pad($line, $columnCount - $cellCount, null);
             }
 

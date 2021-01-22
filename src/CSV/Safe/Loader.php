@@ -1,10 +1,10 @@
 <?php
 
-namespace Kiboko\Component\ETL\Flow\Spout\CSV\Safe;
+namespace Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Writer\CSV\Writer;
-use Kiboko\Component\ETL\Contracts\LoaderInterface;
-use Kiboko\Component\ETL\Flow\Spout\Sheet;
+use Kiboko\Component\Flow\Spreadsheet\Sheet;
+use Kiboko\Contract\Pipeline\LoaderInterface;
 
 class Loader implements LoaderInterface
 {

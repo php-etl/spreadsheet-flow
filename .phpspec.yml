@@ -1,5 +1,5 @@
 suites:
   acme_suite:
-    namespace: Kiboko\Component\ETL\Flow\Spout
-    psr4_prefix: Kiboko\Component\ETL\Flow\Spout
+    namespace: Kiboko\Component\Flow\Spout
+    psr4_prefix: Kiboko\Component\Flow\Spout
     src_path: '%paths.config%'

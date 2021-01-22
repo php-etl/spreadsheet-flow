@@ -1,24 +1,16 @@
 <?php
 
-namespace Kiboko\Component\ETL\Flow\Spout\Sheet\Safe;
+namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Reader\SheetInterface;
-use Kiboko\Component\ETL\Contracts\ExtractorInterface;
+use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
-    /** @var SheetInterface */
-    private $sheet;
-    /** @var int */
-    private $skipLines;
-
     public function __construct(
-        SheetInterface $sheet,
-        int $skipLines = 0
-    ) {
-        $this->sheet = $sheet;
-        $this->skipLines = $skipLines;
-    }
+        private SheetInterface $sheet,
+        private int $skipLines = 0
+    ) {}
 
     public function extract(): iterable
     {
@@ -47,7 +39,7 @@ class Extractor implements ExtractorInterface
                         '%actual%' => $cellCount,
                     ]
                 ));
-            } else if ($cellCount > $columnCount) {
+            } elseif ($cellCount > $columnCount) {
                 throw new \RuntimeException(strtr(
                     'The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.',
                     [
@@ -62,7 +54,7 @@ class Extractor implements ExtractorInterface
         }
     }
 
-    private function skipLines(\Iterator $iterator, int $skipLines)
+    private function skipLines(\Iterator $iterator, int $skipLines): void
     {
         for ($i = 0; $i < $skipLines; $i++) {
             $iterator->next();

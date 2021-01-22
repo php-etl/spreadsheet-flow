@@ -1,5 +1,5 @@
 {
-    "name": "php-etl/flow-spout",
+    "name": "php-etl/spreadsheet-flow",
     "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
     "type": "library",
     "license": "MIT",
@@ -14,21 +14,24 @@
         }
     ],
     "minimum-stability": "dev",
+    "config": {
+        "bin-dir": "bin"
+    },
     "require": {
-        "php": "^7.1",
-        "php-etl/contracts": "1.0.x-dev",
-        "php-etl/bucket": "1.0.x-dev",
+        "php": "^8.0",
+        "php-etl/bucket": "0.1.x-dev",
         "psr/log": "^1.1@dev",
-        "box/spout": "^3.1@dev"
+        "box/spout": "^3.1@dev",
+        "php-etl/pipeline": "0.2.x-dev"
     },
     "autoload": {
         "psr-4": {
-            "Kiboko\\Component\\ETL\\Flow\\Spout\\": ""
+            "Kiboko\\Component\\Flow\\Spreadsheet\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "unit\\Kiboko\\Component\\ETL\\Flow\\Spout\\": "unit/"
+            "functional\\Kiboko\\Component\\Flow\\Spreadsheet\\": "tests/functional/"
         }
     },
     "extra": {
@@ -38,9 +41,7 @@
     },
     "require-dev": {
         "ext-xdebug": "*",
-        "phpspec/phpspec": "^5.1",
-        "phpunit/phpunit": "^7.0",
-        "johnkary/phpunit-speedtrap": "^3.1@dev",
-        "mybuilder/phpunit-accelerator": "dev-master"
+        "adlawson/vfs": "dev-develop",
+        "phpunit/phpunit": "^9.0"
     }
 }

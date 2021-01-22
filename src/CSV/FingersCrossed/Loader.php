@@ -1,15 +1,14 @@
 <?php
 
-namespace Kiboko\Component\ETL\Flow\Spout\CSV\FingersCrossed;
+namespace Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Writer\CSV\Writer;
-use Kiboko\Component\ETL\Contracts\LoaderInterface;
-use Kiboko\Component\ETL\Flow\Spout\Sheet;
+use Kiboko\Component\Flow\Spreadsheet\Sheet;
+use Kiboko\Contract\Pipeline\LoaderInterface;
 
 class Loader implements LoaderInterface
 {
-    /** @var LoaderInterface */
-    private $inner;
+    private LoaderInterface $inner;
 
     public function __construct(Writer $writer)
     {
