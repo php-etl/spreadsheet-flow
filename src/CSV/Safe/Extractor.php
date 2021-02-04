@@ -3,23 +3,26 @@
 namespace Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Reader\CSV\Reader;
+use Box\Spout\Reader\Exception\ReaderNotOpenedException;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
-    /** @var ExtractorInterface */
-    private $inner;
+    private ExtractorInterface $inner;
 
     /**
-     * @throws \Box\Spout\Reader\Exception\ReaderNotOpenedException
+     * @throws ReaderNotOpenedException
      */
     public function __construct(
         Reader $reader,
         int $skipLines
     ) {
+        $iterator = $reader->getSheetIterator();
+        $iterator->rewind();
+
         $this->inner = new Sheet\Safe\Extractor(
-            ...(new \LimitIterator($reader->getSheetIterator(), 0, 1)),
+            $iterator->current(),
             $skipLines
         );
     }

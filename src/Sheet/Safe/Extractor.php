@@ -20,18 +20,20 @@ class Extractor implements ExtractorInterface
 
         $this->skipLines($iterator, $this->skipLines);
 
-        $columns = $iterator->current();
+        $columns = $iterator->current()->toArray();
         $columnCount = count($columns);
 
         $currentLine = $this->skipLines + 1;
         while ($iterator->valid()) {
             $iterator->next();
 
-            $line = $iterator->current();
+            $line = $iterator->current()->toArray();
             $cellCount = count($line);
             ++$currentLine;
 
-            if ($cellCount > $columnCount) {
+            if (empty($line)) {
+                continue;
+            } elseif ($cellCount > $columnCount) {
                 throw new \RuntimeException(strtr(
                     'The line %line% contains too much values: found %actual% values, was expecting %expected% values.',
                     [
@@ -40,7 +42,7 @@ class Extractor implements ExtractorInterface
                         '%actual%' => $cellCount,
                     ]
                 ));
-            } elseif ($cellCount > $columnCount) {
+            } elseif ($cellCount < $columnCount) {
                 throw new \RuntimeException(strtr(
                     'The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.',
                     [

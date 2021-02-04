@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
+namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use functional\Kiboko\Component\Flow\Spreadsheet\CSV\CsvLoaderTestCase;
-use Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed\Loader;
+use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Loader;
 
 final class LoaderTest extends CsvLoaderTestCase
 {

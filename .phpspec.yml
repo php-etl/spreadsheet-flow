@@ -1,5 +1,0 @@
-suites:
-  acme_suite:
-    namespace: Kiboko\Component\Flow\Spout
-    psr4_prefix: Kiboko\Component\Flow\Spout
-    src_path: '%paths.config%'

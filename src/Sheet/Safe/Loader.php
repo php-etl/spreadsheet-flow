@@ -24,7 +24,9 @@ class Loader implements LoaderInterface
 
             if ($isFirstLine === true) {
                 $headers = array_keys($line);
-                $this->writer->addRow($this->orderColumns($headers, $headers));
+                $this->writer->addRow(
+                    new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
+                );
                 $isFirstLine = false;
             }
 

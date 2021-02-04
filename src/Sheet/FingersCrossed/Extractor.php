@@ -29,7 +29,9 @@ class Extractor implements ExtractorInterface
             $line = $iterator->current()->toArray();
             $cellCount = count($line);
 
-            if ($cellCount > $columnCount) {
+            if (empty($line)) {
+                continue;
+            } elseif ($cellCount > $columnCount) {
                 $line = array_slice($line, 0, $columnCount, true);
             } elseif ($cellCount < $columnCount) {
                 $line = array_pad($line, $columnCount - $cellCount, null);

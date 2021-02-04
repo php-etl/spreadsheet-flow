@@ -28,9 +28,9 @@ class Loader implements LoaderInterface
                 $isFirstLine = false;
             }
 
-            $line = new Row(array_map(fn ($value) => new Cell($value), $line), null);
-
-            $this->writer->addRow($line);
+            $this->writer->addRow(
+                new Row(array_map(fn ($value) => new Cell($value), $line), null)
+            );
 
             yield new AcceptanceResultBucket($line);
         }

@@ -8,8 +8,7 @@ use Kiboko\Contract\Pipeline\LoaderInterface;
 
 class Loader implements LoaderInterface
 {
-    /** @var LoaderInterface */
-    private $inner;
+    private LoaderInterface $inner;
 
     public function __construct(Writer $writer)
     {
