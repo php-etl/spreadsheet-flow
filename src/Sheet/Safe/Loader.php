@@ -6,9 +6,12 @@ use Box\Spout\Common\Entity\Cell;
 use Box\Spout\Common\Entity\Row;
 use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
+use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Contract\Bucket\ResultBucketInterface;
+use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 
-class Loader implements LoaderInterface
+class Loader implements LoaderInterface, FlushableInterface
 {
     public function __construct(
         private WriterInterface $writer
@@ -44,5 +47,11 @@ class Loader implements LoaderInterface
         }
 
         return new Row($result, null);
+    }
+
+    public function flush(): ResultBucketInterface
+    {
+        $this->writer->close();
+        return new EmptyResultBucket();
     }
 }
