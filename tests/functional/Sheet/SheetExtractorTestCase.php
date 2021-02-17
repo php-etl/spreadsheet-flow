@@ -9,6 +9,7 @@ use Box\Spout\Reader\XLSX\Creator\ManagerFactory;
 use Box\Spout\Reader\XLSX\Manager\OptionsManager;
 use Box\Spout\Reader\XLSX\Manager\SharedStringsCaching\CachingStrategyFactory;
 use Box\Spout\Reader\XLSX\Reader;
+use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Extractor;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
@@ -26,6 +27,16 @@ class SheetExtractorTestCase extends TestCase
     {
         $this->fs->unmount();
         $this->fs = null;
+    }
+
+    public function testExtractSheet()
+    {
+        $this->extractSheet(Extractor::class);
+    }
+
+    public function testExtractEmptySheet()
+    {
+        $this->extractEmptySheet(Extractor::class);
     }
 
     public function extractSheet(string $extractorClass): void
@@ -48,10 +59,7 @@ class SheetExtractorTestCase extends TestCase
 
         $reader->open('tests/functional/Sheet/source-to-extract.xlsx');
 
-        $iterator = $reader->getSheetIterator();
-        $iterator->rewind();
-
-        $extractor = new $extractorClass($iterator->current(), 0);
+        $extractor = new $extractorClass($reader, 0);
 
         $result = [];
         foreach ($extractor->extract() as $line) {
@@ -71,5 +79,35 @@ class SheetExtractorTestCase extends TestCase
             ],
             $result
         );
+    }
+
+    public function extractEmptySheet(string $extractorClass): void
+    {
+        $helperFactory = new HelperFactory();
+        $managerFactory = new ManagerFactory(
+            $helperFactory,
+            new CachingStrategyFactory()
+        );
+
+        $reader = new Reader(
+            new OptionsManager(),
+            new GlobalFunctionsHelper(),
+            new InternalEntityFactory(
+                $managerFactory,
+                $helperFactory
+            ),
+            $managerFactory
+        );
+
+        $reader->open('tests/functional/Sheet/source-to-extract-empty.xlsx');
+
+        $extractor = new $extractorClass($reader, 0);
+
+        $result = [];
+        foreach ($extractor->extract() as $line) {
+            $result[] = $line;
+        }
+
+        $this->assertEmpty($result);
     }
 }

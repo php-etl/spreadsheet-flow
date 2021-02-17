@@ -2,32 +2,39 @@
 
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
-use Box\Spout\Reader\SheetInterface;
+use Box\Spout\Reader\ReaderInterface;
+use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
+use Kiboko\Contract\Pipeline\FlushableInterface;
 
-class Extractor implements ExtractorInterface
+class Extractor implements ExtractorInterface, FlushableInterface
 {
     public function __construct(
-        private SheetInterface $sheet,
+        private ReaderInterface $reader,
         private int $skipLines = 0
-    ) {
+    )
+    {
     }
 
     public function extract(): iterable
     {
-        $iterator = $this->sheet->getRowIterator();
-        $iterator->rewind();
+        $sheetIterator = $this->reader->getSheetIterator();
+        $sheetIterator->rewind();
 
-        $this->skipLines($iterator, $this->skipLines);
+        $rowIterator = $sheetIterator->current()->getRowIterator();
+        $rowIterator->rewind();
 
-        $columns = $iterator->current()->toArray();
+        $this->skipLines($rowIterator, $this->skipLines);
+        $columns = $rowIterator->current()->toArray();
         $columnCount = count($columns);
 
         $currentLine = $this->skipLines + 1;
-        while ($iterator->valid()) {
-            $iterator->next();
 
-            $line = $iterator->current()->toArray();
+        while ($rowIterator->valid()) {
+            $rowIterator->next();
+
+            $line = $rowIterator->current()->toArray();
             $cellCount = count($line);
             ++$currentLine;
 
@@ -55,6 +62,8 @@ class Extractor implements ExtractorInterface
 
             yield array_combine($columns, $line);
         }
+
+
     }
 
     private function skipLines(\Iterator $iterator, int $skipLines): void
@@ -66,5 +75,11 @@ class Extractor implements ExtractorInterface
                 throw new \RuntimeException('Reached unexpected end of source.');
             }
         }
+    }
+
+    public function flush(): ResultBucketInterface
+    {
+        $this->reader->close();
+        return new EmptyResultBucket();
     }
 }
