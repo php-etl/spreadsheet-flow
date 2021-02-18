@@ -9,6 +9,11 @@ final class ExtractorTest extends SheetExtractorTestCase
 {
     public function testExtractXlsxSuccessful(): void
     {
-        $this->extractSheet(Extractor::class);
+        $this->extractSheet();
+    }
+
+    private function extractSheet()
+    {
+        // TODO
     }
 }

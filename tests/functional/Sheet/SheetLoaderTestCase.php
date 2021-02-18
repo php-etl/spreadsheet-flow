@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet;
 
@@ -9,6 +11,7 @@ use Box\Spout\Writer\XLSX\Creator\HelperFactory;
 use Box\Spout\Writer\XLSX\Creator\ManagerFactory;
 use Box\Spout\Writer\XLSX\Manager\OptionsManager;
 use Box\Spout\Writer\XLSX\Writer;
+use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use Kiboko\Component\Pipeline\Pipeline;
 use Kiboko\Component\Pipeline\PipelineRunner;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +33,7 @@ class SheetLoaderTestCase extends TestCase
         $this->fs = null;
     }
 
-    public function loadXlsx($loaderClass): void
+    public function testLoadXlsx(): void
     {
         $writer = new Writer(
             new OptionsManager(
@@ -49,18 +52,18 @@ class SheetLoaderTestCase extends TestCase
             new \ArrayIterator([
                 [
                     'first name' => 'john',
-                    'last name' => 'doe'
+                    'last name' => 'doe',
                 ],
                 [
                     'first name' => 'jean',
-                    'last name' => 'dupont'
-                ]
+                    'last name' => 'dupont',
+                ],
             ])
         );
 
         $writer->openToFile('vfs://test.xlsx');
 
-        $pipeline->load(new $loaderClass($writer));
+        $pipeline->load(new Loader($writer));
         $pipeline->run();
 
         $this->assertEquals(

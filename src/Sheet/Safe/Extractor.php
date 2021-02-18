@@ -34,8 +34,6 @@ class Extractor implements ExtractorInterface, FlushableInterface
                 $line = $row->toArray();
                 $cellCount = count($row->getCells());
 
-                ++$currentLine;
-
                 if (empty($line)) {
                     continue;
                 } elseif ($cellCount > $columnCount) {

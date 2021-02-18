@@ -9,6 +9,6 @@ final class LoaderTest extends SheetLoaderTestCase
 {
     public function testLoadXlsxSuccessful()
     {
-        $this->loadXlsx(Loader::class);
+        $this->testLoadXlsx();
     }
 }

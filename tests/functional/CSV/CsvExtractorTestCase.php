@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV;
 
@@ -7,6 +9,7 @@ use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\CSV\Creator\InternalEntityFactory;
 use Box\Spout\Reader\CSV\Manager\OptionsManager;
 use Box\Spout\Reader\CSV\Reader;
+use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
@@ -26,7 +29,7 @@ class CsvExtractorTestCase extends TestCase
         $this->fs = null;
     }
 
-    public function extractCsv(string $extractorClass): void
+    public function testExtractCsv(): void
     {
         $reader = new Reader(
             new OptionsManager(),
@@ -38,7 +41,7 @@ class CsvExtractorTestCase extends TestCase
 
         $reader->open('tests/functional/CSV/source-to-extract.csv');
 
-        $extractor = new $extractorClass($reader, 0);
+        $extractor = new Extractor($reader, 0);
 
         $result = [];
         foreach ($extractor->extract() as $line) {
@@ -49,12 +52,12 @@ class CsvExtractorTestCase extends TestCase
             [
                 [
                     'first name' => 'john',
-                    'last name' => 'doe'
+                    'last name' => 'doe',
                 ],
                 [
                     'first name' => 'jean',
-                    'last name' => 'dupont'
-                ]
+                    'last name' => 'dupont',
+                ],
             ],
             $result
         );

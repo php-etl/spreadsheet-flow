@@ -9,6 +9,6 @@ final class ExtractorTest extends CsvExtractorTestCase
 {
     public function testExtractCsvSuccessful()
     {
-        $this->extractCsv(Extractor::class);
+        $this->testExtractCsv();
     }
 }

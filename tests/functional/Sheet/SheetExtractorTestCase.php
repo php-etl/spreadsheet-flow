@@ -93,7 +93,7 @@ class SheetExtractorTestCase extends TestCase
 
         $reader->open('tests/functional/Sheet/source-to-extract-empty.xlsx');
 
-        $extractor = new Extractor($reader, 0);
+        $extractor = new Extractor($reader, 'Sheet1', 0);
 
         $result = [];
 
