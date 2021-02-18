@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet;
 
@@ -29,17 +31,7 @@ class SheetExtractorTestCase extends TestCase
         $this->fs = null;
     }
 
-    public function testExtractSheet()
-    {
-        $this->extractSheet(Extractor::class);
-    }
-
-    public function testExtractEmptySheet()
-    {
-        $this->extractEmptySheet(Extractor::class);
-    }
-
-    public function extractSheet(string $extractorClass): void
+    public function testExtractSheet(): void
     {
         $helperFactory = new HelperFactory();
         $managerFactory = new ManagerFactory(
@@ -59,7 +51,7 @@ class SheetExtractorTestCase extends TestCase
 
         $reader->open('tests/functional/Sheet/source-to-extract.xlsx');
 
-        $extractor = new $extractorClass($reader, 0);
+        $extractor = new Extractor($reader, 'Sheet1', 0);
 
         $result = [];
         foreach ($extractor->extract() as $line) {
@@ -70,18 +62,18 @@ class SheetExtractorTestCase extends TestCase
             [
                 [
                     'first name' => 'john',
-                    'last name' => 'doe'
+                    'last name' => 'doe',
                 ],
                 [
                     'first name' => 'jean',
-                    'last name' => 'dupont'
-                ]
+                    'last name' => 'dupont',
+                ],
             ],
             $result
         );
     }
 
-    public function extractEmptySheet(string $extractorClass): void
+    public function testExtractEmptySheet(): void
     {
         $helperFactory = new HelperFactory();
         $managerFactory = new ManagerFactory(
@@ -101,9 +93,10 @@ class SheetExtractorTestCase extends TestCase
 
         $reader->open('tests/functional/Sheet/source-to-extract-empty.xlsx');
 
-        $extractor = new $extractorClass($reader, 0);
+        $extractor = new Extractor($reader, 0);
 
         $result = [];
+
         foreach ($extractor->extract() as $line) {
             $result[] = $line;
         }
