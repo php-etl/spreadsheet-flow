@@ -44,7 +44,7 @@ class SheetLoaderTestCase extends TestCase
 
         $pipeline = new Pipeline(new PipelineRunner(null), $iterator);
 
-        $writer->openToFile('tests/functional/Sheet/test.xlsx');
+        $writer->openToFile('vfs://test.xlsx');
 
         $pipeline
             ->load(new Loader($writer, $iterator))
@@ -52,7 +52,7 @@ class SheetLoaderTestCase extends TestCase
 
         $this->assertEquals(
             hash('sha1', str_replace(' ', '', file_get_contents('tests/functional/Sheet/result-to-load.xlsx'))),
-            hash('sha1', str_replace(' ', '', file_get_contents('tests/functional/Sheet/test.xlsx')))
+            hash('sha1', str_replace(' ', '', file_get_contents('vfs://test.xlsx')))
         );
     }
 }
