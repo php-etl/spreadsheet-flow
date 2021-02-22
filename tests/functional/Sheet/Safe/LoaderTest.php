@@ -3,7 +3,6 @@
 namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use functional\Kiboko\Component\Flow\Spreadsheet\Sheet\SheetLoaderTestCase;
-use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 
 final class LoaderTest extends SheetLoaderTestCase
 {

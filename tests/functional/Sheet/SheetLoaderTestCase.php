@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet;
 
-use Box\Spout\Common\Helper\GlobalFunctionsHelper;
-use Box\Spout\Writer\Common\Creator\InternalEntityFactory;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\XLSX\Creator\HelperFactory;
-use Box\Spout\Writer\XLSX\Creator\ManagerFactory;
-use Box\Spout\Writer\XLSX\Manager\OptionsManager;
-use Box\Spout\Writer\XLSX\Writer;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use Kiboko\Component\Pipeline\Pipeline;
 use Kiboko\Component\Pipeline\PipelineRunner;
@@ -35,40 +29,30 @@ class SheetLoaderTestCase extends TestCase
 
     public function testLoadXlsx(): void
     {
-        $writer = new Writer(
-            new OptionsManager(
-                new StyleBuilder()
-            ),
-            new GlobalFunctionsHelper(),
-            new HelperFactory(),
-            new ManagerFactory(
-                new InternalEntityFactory(),
-                new HelperFactory()
-            )
-        );
+        $iterator = new \ArrayIterator([
+            [
+                'first name' => 'john',
+                'last name' => 'doe',
+            ],
+            [
+                'first name' => 'jean',
+                'last name' => 'dupont',
+            ],
+        ]);
 
-        $pipeline = new Pipeline(
-            new PipelineRunner(),
-            new \ArrayIterator([
-                [
-                    'first name' => 'john',
-                    'last name' => 'doe',
-                ],
-                [
-                    'first name' => 'jean',
-                    'last name' => 'dupont',
-                ],
-            ])
-        );
+        $writer = WriterEntityFactory::createXLSXWriter();
 
-        $writer->openToFile('vfs://test.xlsx');
+        $pipeline = new Pipeline(new PipelineRunner(null), $iterator);
 
-        $pipeline->load(new Loader($writer));
-        $pipeline->run();
+        $writer->openToFile('tests/functional/Sheet/test.xlsx');
+
+        $pipeline
+            ->load(new Loader($writer, $iterator))
+            ->run();
 
         $this->assertEquals(
-            file_get_contents('tests/functional/Sheet/result-to-load.xlsx'),
-            file_get_contents('vfs://test.xlsx')
+            hash('sha1', str_replace(' ', '', file_get_contents('tests/functional/Sheet/result-to-load.xlsx'))),
+            hash('sha1', str_replace(' ', '', file_get_contents('tests/functional/Sheet/test.xlsx')))
         );
     }
 }

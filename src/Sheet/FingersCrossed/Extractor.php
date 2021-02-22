@@ -2,32 +2,34 @@
 
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
-use Box\Spout\Reader\SheetInterface;
+use Box\Spout\Reader\ReaderInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
     public function __construct(
-        private SheetInterface $sheet,
+        private ReaderInterface $reader,
+        private string $name,
         private int $skipLines = 0
     ) {
     }
 
     public function extract(): iterable
     {
-        $iterator = $this->sheet->getRowIterator();
-        $iterator->rewind();
+        $sheet = $this->findSheet($this->name);
 
-        $this->skipLines($iterator, $this->skipLines);
+        $currentLine = $this->skipLines + 1;
 
-        $columns = $iterator->current()->toArray();
-        $columnCount = count($columns);
+        foreach ($sheet->getRowIterator() as $rowIndex => $row) {
+            if ($rowIndex === $currentLine) {
+                $columns = $row->toArray();
+                $columnCount = count($columns);
+            }
 
-        while ($iterator->valid()) {
-            $iterator->next();
-
-            $line = $iterator->current()->toArray();
-            $cellCount = count($line);
+            if ($rowIndex > $currentLine) {
+                $line = $row->toArray();
+                $cellCount = count($row->getCells());
+            }
 
             if (empty($line)) {
                 continue;
@@ -41,14 +43,14 @@ class Extractor implements ExtractorInterface
         }
     }
 
-    private function skipLines(\Iterator $iterator, int $skipLines)
+    public function findSheet(string $name)
     {
-        for ($i = 0; $i < $skipLines; $i++) {
-            $iterator->next();
-
-            if (!$iterator->valid()) {
-                throw new \RuntimeException('Reached unexpected end of source.');
+        foreach ($this->reader->getSheetIterator() as $sheet) {
+            if ($sheet->getName() === $name) {
+                return $sheet;
             }
         }
+
+        throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
     }
 }
