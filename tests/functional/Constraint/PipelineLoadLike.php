@@ -40,6 +40,8 @@ final class PipelineLoadLike extends Constraint
             $constraint->evaluate($actualItem, sprintf("Values of Iteration #%d", $index)) !== true;
         }
 
+        $other->flush();
+
         return true;
     }
 

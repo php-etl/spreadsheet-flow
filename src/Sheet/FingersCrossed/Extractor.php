@@ -18,6 +18,10 @@ class Extractor implements ExtractorInterface
     {
         $sheet = $this->findSheet($this->name);
 
+        if ($this->skipLines > 0){
+            $this->skipLines = 0;
+        }
+
         $currentLine = $this->skipLines + 1;
 
         foreach ($sheet->getRowIterator() as $rowIndex => $row) {

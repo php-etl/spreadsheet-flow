@@ -22,6 +22,10 @@ class Extractor implements ExtractorInterface, FlushableInterface
     {
         $sheet = $this->findSheet($this->name);
 
+        if ($this->skipLines > 0){
+            $this->skipLines = 0;
+        }
+
         $currentLine = $this->skipLines + 1;
 
         foreach ($sheet->getRowIterator() as $rowIndex => $row) {
@@ -33,17 +37,17 @@ class Extractor implements ExtractorInterface, FlushableInterface
             if ($rowIndex > $currentLine) {
                 $line = $row->toArray();
                 $cellCount = count($row->getCells());
-
-                if (empty($line)) {
-                    continue;
-                } elseif ($cellCount > $columnCount) {
-                    throw new \RuntimeException(strtr('The line %line% contains too much values: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
-                } elseif ($cellCount < $columnCount) {
-                    throw new \RuntimeException(strtr('The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
-                }
-
-                yield array_combine($columns, $line);
             }
+
+            if (empty($line)) {
+                continue;
+            } elseif ($cellCount > $columnCount) {
+                throw new \RuntimeException(strtr('The line %line% contains too much values: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
+            } elseif ($cellCount < $columnCount) {
+                throw new \RuntimeException(strtr('The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
+            }
+
+            yield array_combine($columns, $line);
         }
     }
 
