@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
+namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Writer\XLSX\Writer;
+use Box\Spout\Writer\XLSX;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
-use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
+use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
-final class LoaderTest extends TestCase
+final class ExcelLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
 
     private ?FileSystem $fs = null;
-    private ?Writer $writer = null;
+    private ?XLSX\Writer $writer = null;
 
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ final class LoaderTest extends TestCase
         $this->writer = null;
     }
 
-    public function testLoadXlsxSuccessful()
+    public function testLoad()
     {
         $this->writer->openToFile('vfs://test.xlsx');
 
@@ -59,5 +59,7 @@ final class LoaderTest extends TestCase
             ],
             new Loader($this->writer)
         );
+
+        $this->assertFileEquals(__DIR__.'/../data/users.xlsx', 'vfs://test.xlsx');
     }
 }

@@ -2,11 +2,17 @@
 
 namespace Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
+use Box\Spout\Common\Entity\Row;
+use Box\Spout\Reader\Exception\ReaderNotOpenedException;
 use Box\Spout\Reader\ReaderInterface;
+use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
+    /**
+     * @throws ReaderNotOpenedException
+     */
     public function __construct(
         private ReaderInterface $reader,
         private int $skipLines = 0
@@ -19,6 +25,10 @@ class Extractor implements ExtractorInterface
 
         $currentLine = $this->skipLines + 1;
 
+        /**
+         * @var int $rowIndex
+         * @var Row $row
+         */
         foreach ($sheet->current()->getRowIterator() as $rowIndex => $row) {
             if ($rowIndex === $currentLine) {
                 $columns = $row->toArray();
@@ -26,7 +36,7 @@ class Extractor implements ExtractorInterface
             }
 
             if ($rowIndex > $currentLine) {
-                $line = $row->getCells();
+                $line = $row->toArray();
                 $cellCount = count($row->getCells());
             }
 

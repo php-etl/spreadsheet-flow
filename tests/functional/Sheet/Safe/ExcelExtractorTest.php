@@ -5,39 +5,34 @@ declare(strict_types=1);
 namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Common\Helper\GlobalFunctionsHelper;
-use Box\Spout\Reader\XLSX\Creator\HelperFactory;
-use Box\Spout\Reader\XLSX\Creator\InternalEntityFactory;
-use Box\Spout\Reader\XLSX\Creator\ManagerFactory;
-use Box\Spout\Reader\XLSX\Manager\OptionsManager;
-use Box\Spout\Reader\XLSX\Manager\SharedStringsCaching\CachingStrategyFactory;
-use Box\Spout\Reader\XLSX\Reader;
+use Box\Spout\Reader\XLSX;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Extractor;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
-final class ExtractorTest extends TestCase
+final class ExcelExtractorTest extends TestCase
 {
     use PipelineAssertTrait;
 
     private ?FileSystem $fs = null;
-    private ?Reader $reader = null;
+    private ?XLSX\Reader $reader = null;
 
     protected function setUp(): void
     {
         $this->fs = FileSystem::factory('vfs://');
         $this->fs->mount();
 
-        $helperFactory = new HelperFactory();
-        $managerFactory = new ManagerFactory(
+        $helperFactory = new XLSX\Creator\HelperFactory();
+        $managerFactory = new XLSX\Creator\ManagerFactory(
             $helperFactory,
-            new CachingStrategyFactory()
+            new XLSX\Manager\SharedStringsCaching\CachingStrategyFactory()
         );
 
-        $this->reader = new Reader(
-            new OptionsManager(),
+        $this->reader = new XLSX\Reader(
+            new XLSX\Manager\OptionsManager(),
             new GlobalFunctionsHelper(),
-            new InternalEntityFactory(
+            new XLSX\Creator\InternalEntityFactory(
                 $managerFactory,
                 $helperFactory
             ),
@@ -53,9 +48,9 @@ final class ExtractorTest extends TestCase
         $this->reader = null;
     }
 
-    public function testExtractXlsxSuccessful(): void
+    public function testExtractFile(): void
     {
-        $this->reader->open(__DIR__ . '/../source-to-extract.xlsx');
+        $this->reader->open(__DIR__ . '/../data/users.xlsx');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
@@ -74,9 +69,30 @@ final class ExtractorTest extends TestCase
         );
     }
 
-    public function testExtractEmptySheet(): void
+    public function testExtractFileSkippingLines(): void
     {
-        $this->reader->open(__DIR__ . '/../source-to-extract-empty.xlsx');
+        $this->reader->open(__DIR__ . '/../data/users-with-2-empty-headers.xlsx');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 2);
+
+        $this->assertDoesIterateLike(
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            $extractor->extract()
+        );
+    }
+
+    public function testExtractEmptyFile(): void
+    {
+        $this->reader->open(__DIR__ . '/../data/empty-file.xlsx');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 

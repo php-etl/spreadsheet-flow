@@ -41,9 +41,9 @@ final class ExtractorTest extends TestCase
         $this->reader = null;
     }
 
-    public function testExtractCsvSuccessful()
+    public function testExtractCSVFile()
     {
-        $this->reader->open(__DIR__ . '/../source-to-extract.csv');
+        $this->reader->open(__DIR__ . '/../data/users.csv');
 
         $extractor = new Extractor($this->reader, 0);
 
@@ -62,9 +62,9 @@ final class ExtractorTest extends TestCase
         );
     }
 
-    public function testExtractEmptySheet(): void
+    public function testExtractEmptyCSVFile(): void
     {
-        $this->reader->open(__DIR__ . '/../source-to-extract-empty.csv');
+        $this->reader->open(__DIR__ . '/../data/empty-file.csv');
 
         $extractor = new Extractor($this->reader, 0);
 

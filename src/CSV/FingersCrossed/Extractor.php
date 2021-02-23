@@ -2,33 +2,43 @@
 
 namespace Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
-use Box\Spout\Reader\CSV\Reader;
+use Box\Spout\Common\Entity\Row;
 use Box\Spout\Reader\Exception\ReaderNotOpenedException;
+use Box\Spout\Reader\ReaderInterface;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
-    private ExtractorInterface $inner;
-
     /**
      * @throws ReaderNotOpenedException
      */
     public function __construct(
-        Reader $reader,
-        int $skipLines
+        private ReaderInterface $reader,
+        private int $skipLines = 0
     ) {
-        $iterator = $reader->getSheetIterator();
-        $iterator->rewind();
-
-        $this->inner = new Sheet\FingersCrossed\Extractor(
-            $iterator->current(),
-            $skipLines
-        );
     }
 
     public function extract(): iterable
     {
-        return $this->inner->extract();
+        $sheet = $this->reader->getSheetIterator();
+
+        $currentLine = $this->skipLines + 1;
+
+        /**
+         * @var int $rowIndex
+         * @var Row $row
+         */
+        foreach ($sheet->current()->getRowIterator() as $rowIndex => $row) {
+            if ($rowIndex === $currentLine) {
+                $columns = $row->toArray();
+            }
+
+            if ($rowIndex > $currentLine) {
+                $line = $row->toArray();
+            }
+
+            yield array_combine($columns, $line);
+        }
     }
 }

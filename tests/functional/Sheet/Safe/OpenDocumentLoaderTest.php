@@ -1,27 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
+namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Writer\XLSX\Writer;
+use Box\Spout\Writer\ODS;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
-use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
+use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
-final class LoaderTest extends TestCase
+final class OpenDocumentLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
 
     private ?FileSystem $fs = null;
-    private ?Writer $writer = null;
+    private ?ODS\Writer $writer = null;
 
     protected function setUp(): void
     {
         $this->fs = FileSystem::factory('vfs://');
         $this->fs->mount();
 
-        $this->writer = WriterEntityFactory::createXLSXWriter();
+        $this->writer = WriterEntityFactory::createODSWriter();
     }
 
     protected function tearDown(): void
@@ -32,9 +32,9 @@ final class LoaderTest extends TestCase
         $this->writer = null;
     }
 
-    public function testLoadXlsxSuccessful()
+    public function testLoad()
     {
-        $this->writer->openToFile('vfs://test.xlsx');
+        $this->writer->openToFile('vfs://test.ods');
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -59,5 +59,7 @@ final class LoaderTest extends TestCase
             ],
             new Loader($this->writer)
         );
+
+        $this->assertFileEquals(__DIR__.'/../data/users.xlsx', 'vfs://test.ods');
     }
 }
