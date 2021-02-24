@@ -5,36 +5,30 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\ODS;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
+use functional\Kiboko\Component\Flow\Spreadsheet\Sheet\CustomFunctionsTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use PHPUnit\Framework\TestCase;
-use Vfs\FileSystem;
 
 final class OpenDocumentLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
+    use CustomFunctionsTrait;
 
-    private ?FileSystem $fs = null;
     private ?ODS\Writer $writer = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
-
         $this->writer = WriterEntityFactory::createODSWriter();
     }
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
-        $this->fs = null;
-
         $this->writer = null;
     }
 
     public function testLoad()
     {
-        $this->writer->openToFile('vfs://test.ods');
+        $this->writer->openToFile(__DIR__ . '/../data/users-loaded.ods');
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -60,6 +54,9 @@ final class OpenDocumentLoaderTest extends TestCase
             new Loader($this->writer)
         );
 
-        $this->assertFileEquals(__DIR__.'/../data/users.xlsx', 'vfs://test.ods');
+        $dataFile1 = $this->getDataFromFile(__DIR__ . '/../data/users.ods', 'ods');
+        $dataFile2 = $this->getDataFromFile(__DIR__ . '/../data/users-loaded.ods', 'ods');
+
+        $this->assertArraySimilar(iterator_to_array($dataFile1), iterator_to_array($dataFile2));
     }
 }

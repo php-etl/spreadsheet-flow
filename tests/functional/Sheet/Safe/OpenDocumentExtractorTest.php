@@ -67,7 +67,7 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractFileSkippingLines(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users-with-2-empty-headers.ods');
+        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.ods');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 2);
 

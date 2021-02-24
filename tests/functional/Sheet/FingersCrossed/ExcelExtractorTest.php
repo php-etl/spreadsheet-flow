@@ -71,7 +71,7 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractFileSkippingLines(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users-with-2-empty-headers.xlsx');
+        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.xlsx');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 2);
 
