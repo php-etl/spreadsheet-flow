@@ -12,11 +12,15 @@ use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
+use Psr\Log\LoggerInterface;
 
 final class Loader implements LoaderInterface, FlushableInterface
 {
+    private ?LoggerInterface $logger = null;
+
     public function __construct(
-        private WriterInterface $writer
+        private WriterInterface $writer,
+        private string $sheetName
     ) {
     }
 
@@ -41,5 +45,17 @@ final class Loader implements LoaderInterface, FlushableInterface
         $this->writer->close();
 
         return new EmptyResultBucket();
+    }
+
+    public function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    public function setLogger(?LoggerInterface $logger): self
+    {
+        $this->logger = $logger;
+
+        return $this;
     }
 }

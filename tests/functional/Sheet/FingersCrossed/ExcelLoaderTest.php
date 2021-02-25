@@ -5,30 +5,36 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\XLSX;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
-use functional\Kiboko\Component\Flow\Spreadsheet\Sheet\CustomFunctionsTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
 use PHPUnit\Framework\TestCase;
+use Vfs\FileSystem;
 
 final class ExcelLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
-    use CustomFunctionsTrait;
 
+    private ?FileSystem $fs = null;
     private ?XLSX\Writer $writer = null;
 
     protected function setUp(): void
     {
+        $this->fs = FileSystem::factory('vfs://');
+        $this->fs->mount();
+
         $this->writer = WriterEntityFactory::createXLSXWriter();
     }
 
     protected function tearDown(): void
     {
+        $this->fs->unmount();
+        $this->fs = null;
+
         $this->writer = null;
     }
 
     public function testLoad()
     {
-        $this->writer->openToFile(__DIR__ . '/../data/users-loaded.xlsx');
+        $this->writer->openToFile('vfs://test.xlsx');
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -51,12 +57,9 @@ final class ExcelLoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer)
+            new Loader($this->writer, 'Sheet1')
         );
 
-        $dataFile1 = $this->getDataFromFile(__DIR__ . '/../data/users.xlsx', 'xlsx', 'fingersCrossed');
-        $dataFile2 = $this->getDataFromFile(__DIR__ . '/../data/users-loaded.xlsx', 'xlsx', 'fingersCrossed');
-
-        $this->assertArraySimilar(iterator_to_array($dataFile1), iterator_to_array($dataFile2));
+//        $this->assertFileEquals(__DIR__.'/../data/users.xlsx', 'vfs://test.xlsx');
     }
 }

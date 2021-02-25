@@ -8,6 +8,7 @@ use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\XLSX;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Extractor;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
@@ -50,9 +51,7 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users.xlsx');
-
-        $extractor = new Extractor($this->reader, 'Sheet1', 0);
+        $extractor = new Extractor(__DIR__.'/../data/users.xlsx', $this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [
@@ -71,9 +70,7 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractFileSkippingLines(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.xlsx');
-
-        $extractor = new Extractor($this->reader, 'Sheet1', 2);
+        $extractor = new Extractor(__DIR__ . '/../data/users-with-2-headers.xlsx', $this->reader, 'Sheet1', 2);
 
         $this->assertDoesIterateLike(
             [
@@ -92,9 +89,7 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractEmptyFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/empty-file.xlsx');
-
-        $extractor = new Extractor($this->reader, 'Sheet1', 0);
+        $extractor = new Extractor(__DIR__ . '/../data/empty-file.xlsx', $this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [],

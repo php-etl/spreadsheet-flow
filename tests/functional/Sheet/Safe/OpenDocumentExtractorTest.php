@@ -46,9 +46,7 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users.ods');
-
-        $extractor = new Extractor($this->reader, 'Sheet1', 0);
+        $extractor = new Extractor(__DIR__ . '/../data/users.ods', $this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [
@@ -67,9 +65,7 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractFileSkippingLines(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.ods');
-
-        $extractor = new Extractor($this->reader, 'Sheet1', 2);
+        $extractor = new Extractor(__DIR__ . '/../data/users-with-2-headers.ods', $this->reader, 'Sheet1', 2);
 
         $this->assertDoesIterateLike(
             [
@@ -88,9 +84,7 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractEmptyFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/empty-file.ods');
-
-        $extractor = new Extractor($this->reader, 'Sheet1', 0);
+        $extractor = new Extractor(__DIR__ . '/../data/empty-file.ods', $this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [],

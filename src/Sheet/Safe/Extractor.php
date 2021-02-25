@@ -8,19 +8,24 @@ use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
+use Psr\Log\LoggerInterface;
 
 class Extractor implements ExtractorInterface, FlushableInterface
 {
+    private ?LoggerInterface $logger = null;
+
     public function __construct(
+        private string $filePath,
         private ReaderInterface $reader,
-        private string $name,
+        private string $sheetName,
         private int $skipLines = 0
     ) {
+        $this->reader->open($this->filePath);
     }
 
     public function extract(): iterable
     {
-        $sheet = $this->findSheet($this->name);
+        $sheet = $this->findSheet($this->sheetName);
 
         $currentLine = $this->skipLines + 1;
 
@@ -63,5 +68,17 @@ class Extractor implements ExtractorInterface, FlushableInterface
         }
 
         throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
+    }
+
+    public function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    public function setLogger(?LoggerInterface $logger): self
+    {
+        $this->logger = $logger;
+
+        return $this;
     }
 }

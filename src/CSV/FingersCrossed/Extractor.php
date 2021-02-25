@@ -3,8 +3,8 @@
 namespace Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Common\Entity\Row;
+use Box\Spout\Reader\CSV\Reader;
 use Box\Spout\Reader\Exception\ReaderNotOpenedException;
-use Box\Spout\Reader\ReaderInterface;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
@@ -14,7 +14,7 @@ class Extractor implements ExtractorInterface
      * @throws ReaderNotOpenedException
      */
     public function __construct(
-        private ReaderInterface $reader,
+        private Reader $reader,
         private int $skipLines = 0
     ) {
     }

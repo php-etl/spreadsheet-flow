@@ -4,19 +4,24 @@ namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Reader\ReaderInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
+use Psr\Log\LoggerInterface;
 
 class Extractor implements ExtractorInterface
 {
+    private ?LoggerInterface $logger = null;
+
     public function __construct(
+        private string $filePath,
         private ReaderInterface $reader,
-        private string $name,
+        private string $sheetName,
         private int $skipLines = 0
     ) {
+        $this->reader->open($this->filePath);
     }
 
     public function extract(): iterable
     {
-        $sheet = $this->findSheet($this->name);
+        $sheet = $this->findSheet($this->sheetName);
 
         $currentLine = $this->skipLines + 1;
 
@@ -52,5 +57,17 @@ class Extractor implements ExtractorInterface
         }
 
         throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
+    }
+
+    public function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    public function setLogger(?LoggerInterface $logger): self
+    {
+        $this->logger = $logger;
+
+        return $this;
     }
 }
