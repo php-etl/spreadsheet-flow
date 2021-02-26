@@ -7,7 +7,7 @@ use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\CSV\Creator\InternalEntityFactory;
 use Box\Spout\Reader\CSV\Manager\OptionsManager;
 use Box\Spout\Reader\CSV\Reader;
-use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;

@@ -4,7 +4,7 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\CSV\Writer;
-use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed\Loader;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;

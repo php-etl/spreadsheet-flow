@@ -6,9 +6,8 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\XLSX;
-use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Extractor;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 

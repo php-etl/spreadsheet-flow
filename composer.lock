@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f50ac3e464bd220f1d0dc7ddf0753c0",
+    "content-hash": "c8805f90d24864d2fdfc48071ad44aaf",
     "packages": [
         {
             "name": "box/spout",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box/spout.git",
-                "reference": "ed9322e30921070f469a66faa7f401aa9bb13de9"
+                "reference": "0f20c99a7f8b8792840ac061c34f3450641a03cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box/spout/zipball/ed9322e30921070f469a66faa7f401aa9bb13de9",
-                "reference": "ed9322e30921070f469a66faa7f401aa9bb13de9",
+                "url": "https://api.github.com/repos/box/spout/zipball/0f20c99a7f8b8792840ac061c34f3450641a03cc",
+                "reference": "0f20c99a7f8b8792840ac061c34f3450641a03cc",
                 "shasum": ""
             },
             "require": {
@@ -78,343 +78,7 @@
                 "issues": "https://github.com/box/spout/issues",
                 "source": "https://github.com/box/spout/tree/master"
             },
-            "time": "2021-02-09T12:58:05+00:00"
-        },
-        {
-            "name": "php-etl/bucket",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/bucket.git",
-                "reference": "3123b62f9ca64ef4b99a354cbfaa049be2bf3522"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket/zipball/3123b62f9ca64ef4b99a354cbfaa049be2bf3522",
-                "reference": "3123b62f9ca64ef4b99a354cbfaa049be2bf3522",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "php-etl/bucket-contracts": "^0.1.0@dev"
-            },
-            "require-dev": {
-                "friends-of-phpspec/phpspec-code-coverage": "6.x-dev",
-                "phpspec/phpspec": "^7.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Component\\Bucket\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
-            "support": {
-                "issues": "https://github.com/php-etl/bucket/issues",
-                "source": "https://github.com/php-etl/bucket/tree/master"
-            },
-            "time": "2021-02-08T15:36:08+00:00"
-        },
-        {
-            "name": "php-etl/bucket-contracts",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/bucket-contracts.git",
-                "reference": "c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5",
-                "reference": "c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "0.12.x-dev"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Contract\\Bucket\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library describes contracts for the data-interchange buckets.",
-            "support": {
-                "issues": "https://github.com/php-etl/bucket-contracts/issues",
-                "source": "https://github.com/php-etl/bucket-contracts/tree/master"
-            },
-            "time": "2021-01-11T13:21:08+00:00"
-        },
-        {
-            "name": "php-etl/pipeline",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/pipeline.git",
-                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/3ea13f50b38e8845dd7242a732603435de068e1c",
-                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "php-etl/bucket": "^0.1.0",
-                "php-etl/bucket-contracts": "^0.1.0",
-                "php-etl/pipeline-contracts": "^0.1.0",
-                "psr/log": "^1.1@dev"
-            },
-            "require-dev": {
-                "friends-of-phpspec/phpspec-code-coverage": "*",
-                "fzaninotto/faker": "^1.9@dev",
-                "johnkary/phpunit-speedtrap": "*",
-                "mybuilder/phpunit-accelerator": "*",
-                "phpspec/phpspec": "^7.0",
-                "phpunit/php-invoker": "*",
-                "phpunit/phpunit": "^9.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Component\\Pipeline\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
-            "support": {
-                "issues": "https://github.com/php-etl/pipeline/issues",
-                "source": "https://github.com/php-etl/pipeline/tree/master"
-            },
-            "time": "2021-02-19T18:49:35+00:00"
-        },
-        {
-            "name": "php-etl/pipeline-contracts",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/pipeline-contracts.git",
-                "reference": "0d90272ad46add53de4933a31aee9f565c180e93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/0d90272ad46add53de4933a31aee9f565c180e93",
-                "reference": "0d90272ad46add53de4933a31aee9f565c180e93",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "php-etl/bucket-contracts": "^0.1"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Contract\\Pipeline\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library describes contracts for the Extract-Transform-Load pattern.",
-            "support": {
-                "issues": "https://github.com/php-etl/pipeline-contracts/issues",
-                "source": "https://github.com/php-etl/pipeline-contracts/tree/master"
-            },
-            "time": "2021-02-01T13:55:21+00:00"
-        },
-        {
-            "name": "psr/log",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "dd738d0b4491f32725492cf345f6b501f5922fec"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/dd738d0b4491f32725492cf345f6b501f5922fec",
-                "reference": "dd738d0b4491f32725492cf345f6b501f5922fec",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/log/tree/master"
-            },
-            "time": "2020-09-18T06:44:51+00:00"
-        }
-    ],
-    "packages-dev": [
-        {
-            "name": "adlawson/vfs",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/adlawson/php-vfs.git",
-                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/adlawson/php-vfs/zipball/610649d759d712cb0a5ec340b0b372f5c9a2f9af",
-                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5",
-                "psr/log": "^1.0"
-            },
-            "require-dev": {
-                "adlawson/timezone": "^1.0",
-                "fabpot/php-cs-fixer": "^1.9",
-                "mockery/mockery": "^0.9",
-                "phpunit/phpunit": "^4.7"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Vfs\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andrew Lawson",
-                    "homepage": "http://adlawson.com"
-                }
-            ],
-            "description": "Virtual file system",
-            "homepage": "https://github.com/adlawson/php-vfs",
-            "keywords": [
-                "dir",
-                "directory",
-                "file",
-                "fs",
-                "read",
-                "stream",
-                "system",
-                "virtual",
-                "wrapper",
-                "write"
-            ],
-            "support": {
-                "issues": "https://github.com/adlawson/php-vfs/issues",
-                "source": "https://github.com/adlawson/php-vfs/tree/develop"
-            },
-            "time": "2016-04-22T07:46:29+00:00"
+            "time": "2021-02-10T09:53:55+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -546,16 +210,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.10.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "c6d052fc58cb876152f89f532b95a8d7907e7f0e"
+                "reference": "8165cf69fab95ade34cb73d1dc1c23d08b57cbb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/c6d052fc58cb876152f89f532b95a8d7907e7f0e",
-                "reference": "c6d052fc58cb876152f89f532b95a8d7907e7f0e",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8165cf69fab95ade34cb73d1dc1c23d08b57cbb2",
+                "reference": "8165cf69fab95ade34cb73d1dc1c23d08b57cbb2",
                 "shasum": ""
             },
             "require": {
@@ -566,6 +230,7 @@
                 "ircmaxell/php-yacc": "^0.0.7",
                 "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
             },
+            "default-branch": true,
             "bin": [
                 "bin/php-parse"
             ],
@@ -596,9 +261,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.10.4"
+                "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2020-12-20T10:01:03+00:00"
+            "time": "2021-02-02T08:57:47+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -663,16 +328,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.0.4",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451"
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/e4782611070e50613683d2b9a57730e9a3ba5451",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/bae7c545bef187884426f042434e561ab1ddb182",
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182",
                 "shasum": ""
             },
             "require": {
@@ -708,9 +373,280 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.0.4"
+                "source": "https://github.com/phar-io/version/tree/3.1.0"
             },
-            "time": "2020-12-13T23:18:30+00:00"
+            "time": "2021-02-23T14:00:09+00:00"
+        },
+        {
+            "name": "php-etl/bucket",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/bucket.git",
+                "reference": "3123b62f9ca64ef4b99a354cbfaa049be2bf3522"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/3123b62f9ca64ef4b99a354cbfaa049be2bf3522",
+                "reference": "3123b62f9ca64ef4b99a354cbfaa049be2bf3522",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "php-etl/bucket-contracts": "^0.1.0@dev"
+            },
+            "require-dev": {
+                "friends-of-phpspec/phpspec-code-coverage": "6.x-dev",
+                "phpspec/phpspec": "^7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\Bucket\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
+            "support": {
+                "issues": "https://github.com/php-etl/bucket/issues",
+                "source": "https://github.com/php-etl/bucket/tree/master"
+            },
+            "time": "2021-02-08T15:36:08+00:00"
+        },
+        {
+            "name": "php-etl/bucket-contracts",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/bucket-contracts.git",
+                "reference": "c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5",
+                "reference": "c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "0.12.x-dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Contract\\Bucket\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library describes contracts for the data-interchange buckets.",
+            "support": {
+                "issues": "https://github.com/php-etl/bucket-contracts/issues",
+                "source": "https://github.com/php-etl/bucket-contracts/tree/master"
+            },
+            "time": "2021-01-11T13:21:08+00:00"
+        },
+        {
+            "name": "php-etl/phpunit-extension",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/phpunit-extension.git",
+                "reference": "3817897b960ac071387141f6e5484da2005456ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/3817897b960ac071387141f6e5484da2005456ef",
+                "reference": "3817897b960ac071387141f6e5484da2005456ef",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "dev-master",
+                "php": "^8.0",
+                "php-etl/pipeline": "0.2.x-dev",
+                "phpunit/phpunit": "^9"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\PHPUnitExtension\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "Extension for testing FastMap and ETL components with PHPUnit testing framework",
+            "support": {
+                "issues": "https://github.com/php-etl/phpunit-extension/issues",
+                "source": "https://github.com/php-etl/phpunit-extension/tree/master"
+            },
+            "time": "2021-02-26T13:25:59+00:00"
+        },
+        {
+            "name": "php-etl/pipeline",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/pipeline.git",
+                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/3ea13f50b38e8845dd7242a732603435de068e1c",
+                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "php-etl/bucket": "^0.1.0",
+                "php-etl/bucket-contracts": "^0.1.0",
+                "php-etl/pipeline-contracts": "^0.1.0",
+                "psr/log": "^1.1@dev"
+            },
+            "require-dev": {
+                "friends-of-phpspec/phpspec-code-coverage": "*",
+                "fzaninotto/faker": "^1.9@dev",
+                "johnkary/phpunit-speedtrap": "*",
+                "mybuilder/phpunit-accelerator": "*",
+                "phpspec/phpspec": "^7.0",
+                "phpunit/php-invoker": "*",
+                "phpunit/phpunit": "^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\Pipeline\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
+            "support": {
+                "issues": "https://github.com/php-etl/pipeline/issues",
+                "source": "https://github.com/php-etl/pipeline/tree/master"
+            },
+            "time": "2021-02-19T18:49:35+00:00"
+        },
+        {
+            "name": "php-etl/pipeline-contracts",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/pipeline-contracts.git",
+                "reference": "0d90272ad46add53de4933a31aee9f565c180e93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/0d90272ad46add53de4933a31aee9f565c180e93",
+                "reference": "0d90272ad46add53de4933a31aee9f565c180e93",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "php-etl/bucket-contracts": "^0.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Contract\\Pipeline\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library describes contracts for the Extract-Transform-Load pattern.",
+            "support": {
+                "issues": "https://github.com/php-etl/pipeline-contracts/issues",
+                "source": "https://github.com/php-etl/pipeline-contracts/tree/master"
+            },
+            "time": "2021-02-01T13:55:21+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -942,30 +878,30 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.x-dev",
+            "version": "9.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ad069801f3d0cdb7102e58afd5f9f32834ec7160"
+                "reference": "229099d7d69fe5044f6e464f669b1fd34f252e8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ad069801f3d0cdb7102e58afd5f9f32834ec7160",
-                "reference": "ad069801f3d0cdb7102e58afd5f9f32834ec7160",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/229099d7d69fe5044f6e464f669b1fd34f252e8d",
+                "reference": "229099d7d69fe5044f6e464f669b1fd34f252e8d",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.10.2",
+                "nikic/php-parser": "^4.8",
                 "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
                 "sebastian/code-unit-reverse-lookup": "^2.0.2",
                 "sebastian/complexity": "^2.0",
                 "sebastian/environment": "^5.1.2",
-                "sebastian/lines-of-code": "^1.0.3",
+                "sebastian/lines-of-code": "^1.0",
                 "sebastian/version": "^3.0.1",
                 "theseer/tokenizer": "^1.2.0"
             },
@@ -1007,7 +943,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.2"
             },
             "funding": [
                 {
@@ -1015,7 +951,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-08T09:55:27+00:00"
+            "time": "2020-10-28T06:24:13+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1023,12 +959,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "499be26d3f45b1d12b4903a772ea22f858a48eb3"
+                "reference": "dae425925709122f7584cadeeb838edcaa491bb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/499be26d3f45b1d12b4903a772ea22f858a48eb3",
-                "reference": "499be26d3f45b1d12b4903a772ea22f858a48eb3",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/dae425925709122f7584cadeeb838edcaa491bb1",
+                "reference": "dae425925709122f7584cadeeb838edcaa491bb1",
                 "shasum": ""
             },
             "require": {
@@ -1076,7 +1012,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:39:05+00:00"
+            "time": "2021-02-23T15:48:43+00:00"
         },
         {
             "name": "phpunit/php-invoker",
@@ -1084,12 +1020,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-invoker.git",
-                "reference": "e17a1cc6f8ab1ba4f4ff654019b9d7d9f017267c"
+                "reference": "5ad9e5f5d6ee1a837e1d50bab1017e0daf423b40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/e17a1cc6f8ab1ba4f4ff654019b9d7d9f017267c",
-                "reference": "e17a1cc6f8ab1ba4f4ff654019b9d7d9f017267c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/5ad9e5f5d6ee1a837e1d50bab1017e0daf423b40",
+                "reference": "5ad9e5f5d6ee1a837e1d50bab1017e0daf423b40",
                 "shasum": ""
             },
             "require": {
@@ -1140,7 +1076,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:39:14+00:00"
+            "time": "2021-02-23T15:48:51+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -1148,12 +1084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-text-template.git",
-                "reference": "8de0286bd8c4988bc20fbd7c246d1662e5c2efe2"
+                "reference": "4ec5a2ac79a19b35d0cf83cce30604f77743067a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/8de0286bd8c4988bc20fbd7c246d1662e5c2efe2",
-                "reference": "8de0286bd8c4988bc20fbd7c246d1662e5c2efe2",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/4ec5a2ac79a19b35d0cf83cce30604f77743067a",
+                "reference": "4ec5a2ac79a19b35d0cf83cce30604f77743067a",
                 "shasum": ""
             },
             "require": {
@@ -1200,7 +1136,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:39:47+00:00"
+            "time": "2021-02-23T15:49:24+00:00"
         },
         {
             "name": "phpunit/php-timer",
@@ -1208,12 +1144,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "bb859edc295be92317a9161ddb0d5cae03c4e164"
+                "reference": "705821b0927b5e69e9e016c84de68dc6195c71b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/bb859edc295be92317a9161ddb0d5cae03c4e164",
-                "reference": "bb859edc295be92317a9161ddb0d5cae03c4e164",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/705821b0927b5e69e9e016c84de68dc6195c71b9",
+                "reference": "705821b0927b5e69e9e016c84de68dc6195c71b9",
                 "shasum": ""
             },
             "require": {
@@ -1260,20 +1196,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:39:22+00:00"
+            "time": "2021-02-23T15:48:59+00:00"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.x-dev",
+            "version": "9.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d44db0df749e7a1567f385d566ce732a24c8c1c3"
+                "reference": "6535e637961f0829832621dc1b7308c2d24a799e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d44db0df749e7a1567f385d566ce732a24c8c1c3",
-                "reference": "d44db0df749e7a1567f385d566ce732a24c8c1c3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6535e637961f0829832621dc1b7308c2d24a799e",
+                "reference": "6535e637961f0829832621dc1b7308c2d24a799e",
                 "shasum": ""
             },
             "require": {
@@ -1289,7 +1225,7 @@
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
-                "phpunit/php-code-coverage": "^9.2.3",
+                "phpunit/php-code-coverage": "^9.2",
                 "phpunit/php-file-iterator": "^3.0.5",
                 "phpunit/php-invoker": "^3.1.1",
                 "phpunit/php-text-template": "^2.0.3",
@@ -1320,7 +1256,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "9.5-dev"
+                    "dev-master": "9.4-dev"
                 }
             },
             "autoload": {
@@ -1351,7 +1287,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.4.4"
             },
             "funding": [
                 {
@@ -1363,7 +1299,58 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:28:47+00:00"
+            "time": "2020-12-01T04:58:47+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "dd738d0b4491f32725492cf345f6b501f5922fec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/dd738d0b4491f32725492cf345f6b501f5922fec",
+                "reference": "dd738d0b4491f32725492cf345f6b501f5922fec",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/master"
+            },
+            "time": "2020-09-18T06:44:51+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1371,12 +1358,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/cli-parser.git",
-                "reference": "83a4f03a3fce4f613fa2662aa7357246c7bb6860"
+                "reference": "3a42d843af4d27ca1155e1d926881af162733655"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/cli-parser/zipball/83a4f03a3fce4f613fa2662aa7357246c7bb6860",
-                "reference": "83a4f03a3fce4f613fa2662aa7357246c7bb6860",
+                "url": "https://api.github.com/repos/sebastianbergmann/cli-parser/zipball/3a42d843af4d27ca1155e1d926881af162733655",
+                "reference": "3a42d843af4d27ca1155e1d926881af162733655",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1407,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:40:12+00:00"
+            "time": "2021-02-23T15:49:50+00:00"
         },
         {
             "name": "sebastian/code-unit",
@@ -1484,12 +1471,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
-                "reference": "b0e1cc9a057295d75ec7c03e6e89094fa0787ca4"
+                "reference": "5f5db0b35f586eb5bca0581a10bb42dd56575986"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/b0e1cc9a057295d75ec7c03e6e89094fa0787ca4",
-                "reference": "b0e1cc9a057295d75ec7c03e6e89094fa0787ca4",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/5f5db0b35f586eb5bca0581a10bb42dd56575986",
+                "reference": "5f5db0b35f586eb5bca0581a10bb42dd56575986",
                 "shasum": ""
             },
             "require": {
@@ -1532,7 +1519,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:37:59+00:00"
+            "time": "2021-02-23T15:47:39+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -1540,12 +1527,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "56f15c16d786947d3fbb9df2788ae14049d34286"
+                "reference": "dbc5fb421f242a5749845dc8dd0dc8cde2979dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/56f15c16d786947d3fbb9df2788ae14049d34286",
-                "reference": "56f15c16d786947d3fbb9df2788ae14049d34286",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/dbc5fb421f242a5749845dc8dd0dc8cde2979dd9",
+                "reference": "dbc5fb421f242a5749845dc8dd0dc8cde2979dd9",
                 "shasum": ""
             },
             "require": {
@@ -1607,7 +1594,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:07+00:00"
+            "time": "2021-02-23T15:47:47+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -1672,12 +1659,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "33d65ae1c50be986bfbddd876d23ea3042bc2b5f"
+                "reference": "93e6aa13f3dc5f8327e7fb9756e9655fc4c23e90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/33d65ae1c50be986bfbddd876d23ea3042bc2b5f",
-                "reference": "33d65ae1c50be986bfbddd876d23ea3042bc2b5f",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/93e6aa13f3dc5f8327e7fb9756e9655fc4c23e90",
+                "reference": "93e6aa13f3dc5f8327e7fb9756e9655fc4c23e90",
                 "shasum": ""
             },
             "require": {
@@ -1731,7 +1718,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:16+00:00"
+            "time": "2021-02-23T15:47:55+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -1739,12 +1726,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "d5a0fb77ea34154ab24cc9ada037e9f2b5715842"
+                "reference": "6e1743b808be9cfd33a716583ccb94b7d4d32e94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/d5a0fb77ea34154ab24cc9ada037e9f2b5715842",
-                "reference": "d5a0fb77ea34154ab24cc9ada037e9f2b5715842",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e1743b808be9cfd33a716583ccb94b7d4d32e94",
+                "reference": "6e1743b808be9cfd33a716583ccb94b7d4d32e94",
                 "shasum": ""
             },
             "require": {
@@ -1795,7 +1782,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:24+00:00"
+            "time": "2021-02-23T15:48:03+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -1803,12 +1790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "36878bc8e65b75bdd37fe65ed6939e6374164b06"
+                "reference": "eca7281ab29075df68b113a37a83be616b629b12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/36878bc8e65b75bdd37fe65ed6939e6374164b06",
-                "reference": "36878bc8e65b75bdd37fe65ed6939e6374164b06",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/eca7281ab29075df68b113a37a83be616b629b12",
+                "reference": "eca7281ab29075df68b113a37a83be616b629b12",
                 "shasum": ""
             },
             "require": {
@@ -1873,7 +1860,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:32+00:00"
+            "time": "2021-02-23T15:48:12+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -1881,12 +1868,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "48eacca30bf0ee1f7b4ba27ddbf5a448d5eae9b9"
+                "reference": "0ac702e6d13725242edb9b294c5d20b92fcfb8b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/48eacca30bf0ee1f7b4ba27ddbf5a448d5eae9b9",
-                "reference": "48eacca30bf0ee1f7b4ba27ddbf5a448d5eae9b9",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/0ac702e6d13725242edb9b294c5d20b92fcfb8b4",
+                "reference": "0ac702e6d13725242edb9b294c5d20b92fcfb8b4",
                 "shasum": ""
             },
             "require": {
@@ -1938,7 +1925,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:40+00:00"
+            "time": "2021-02-23T15:48:19+00:00"
         },
         {
             "name": "sebastian/lines-of-code",
@@ -2003,12 +1990,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-enumerator.git",
-                "reference": "00ebe4f5fb5fbc4e7ab57545f70c0ef61392f527"
+                "reference": "8cc80b4bda00a4c5997c3fc597a34872f3a1007d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/00ebe4f5fb5fbc4e7ab57545f70c0ef61392f527",
-                "reference": "00ebe4f5fb5fbc4e7ab57545f70c0ef61392f527",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/8cc80b4bda00a4c5997c3fc597a34872f3a1007d",
+                "reference": "8cc80b4bda00a4c5997c3fc597a34872f3a1007d",
                 "shasum": ""
             },
             "require": {
@@ -2053,7 +2040,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:48+00:00"
+            "time": "2021-02-23T15:48:28+00:00"
         },
         {
             "name": "sebastian/object-reflector",
@@ -2061,12 +2048,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-reflector.git",
-                "reference": "13af24fcef1a0857804d8f1896e95af4f01c37f0"
+                "reference": "1d33587c2c3e636936f895e103a9e82dd8102a8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/13af24fcef1a0857804d8f1896e95af4f01c37f0",
-                "reference": "13af24fcef1a0857804d8f1896e95af4f01c37f0",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/1d33587c2c3e636936f895e103a9e82dd8102a8e",
+                "reference": "1d33587c2c3e636936f895e103a9e82dd8102a8e",
                 "shasum": ""
             },
             "require": {
@@ -2109,7 +2096,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:38:56+00:00"
+            "time": "2021-02-23T15:48:35+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2117,12 +2104,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "43746c15374dba48c7c81f8e993b21888c943a83"
+                "reference": "43f58a51e8f853aadb228ba818d2be388af7237b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/43746c15374dba48c7c81f8e993b21888c943a83",
-                "reference": "43746c15374dba48c7c81f8e993b21888c943a83",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/43f58a51e8f853aadb228ba818d2be388af7237b",
+                "reference": "43f58a51e8f853aadb228ba818d2be388af7237b",
                 "shasum": ""
             },
             "require": {
@@ -2173,7 +2160,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:39:30+00:00"
+            "time": "2021-02-23T15:49:08+00:00"
         },
         {
             "name": "sebastian/resource-operations",
@@ -2237,12 +2224,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "819c8e7fba19e9c2137b238040b906f1586cc7cc"
+                "reference": "557863473c1de00e165a288d5b547f1f83652e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/819c8e7fba19e9c2137b238040b906f1586cc7cc",
-                "reference": "819c8e7fba19e9c2137b238040b906f1586cc7cc",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/557863473c1de00e165a288d5b547f1f83652e7e",
+                "reference": "557863473c1de00e165a288d5b547f1f83652e7e",
                 "shasum": ""
             },
             "require": {
@@ -2286,7 +2273,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-21T06:39:38+00:00"
+            "time": "2021-02-23T15:49:16+00:00"
         },
         {
             "name": "sebastian/version",
@@ -2531,6 +2518,69 @@
             "time": "2021-01-18T12:52:36+00:00"
         }
     ],
+    "packages-dev": [
+        {
+            "name": "adlawson/vfs",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adlawson/php-vfs.git",
+                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adlawson/php-vfs/zipball/610649d759d712cb0a5ec340b0b372f5c9a2f9af",
+                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "adlawson/timezone": "^1.0",
+                "fabpot/php-cs-fixer": "^1.9",
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vfs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Lawson",
+                    "homepage": "http://adlawson.com"
+                }
+            ],
+            "description": "Virtual file system",
+            "homepage": "https://github.com/adlawson/php-vfs",
+            "keywords": [
+                "dir",
+                "directory",
+                "file",
+                "fs",
+                "read",
+                "stream",
+                "system",
+                "virtual",
+                "wrapper",
+                "write"
+            ],
+            "support": {
+                "issues": "https://github.com/adlawson/php-vfs/issues",
+                "source": "https://github.com/adlawson/php-vfs/tree/develop"
+            },
+            "time": "2016-04-22T07:46:29+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
@@ -2538,6 +2588,7 @@
         "psr/log": 20,
         "box/spout": 20,
         "php-etl/pipeline": 20,
+        "php-etl/phpunit-extension": 20,
         "adlawson/vfs": 20
     },
     "prefer-stable": false,

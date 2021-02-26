@@ -4,7 +4,7 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\ODS;
-use functional\Kiboko\Component\Flow\Spreadsheet\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;

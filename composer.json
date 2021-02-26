@@ -22,7 +22,8 @@
         "php-etl/bucket": "0.1.x-dev",
         "psr/log": "^1.1@dev",
         "box/spout": "^3.1@dev",
-        "php-etl/pipeline": "0.2.x-dev"
+        "php-etl/pipeline": "0.2.x-dev",
+        "php-etl/phpunit-extension": "dev-master"
     },
     "autoload": {
         "psr-4": {
