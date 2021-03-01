@@ -2,69 +2,71 @@
 
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
+use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\SheetInterface;
+use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
     public function __construct(
-        private SheetInterface $sheet,
+        private ReaderInterface $reader,
+        private string $sheetName,
         private int $skipLines = 0
     ) {
     }
 
     public function extract(): iterable
     {
-        $iterator = $this->sheet->getRowIterator();
+        $sheet = $this->findSheet($this->sheetName);
+
+        $iterator = $sheet->getRowIterator();
+        $iterator = new \LimitIterator($iterator, $this->skipLines);
         $iterator->rewind();
+        $iterator = new \NoRewindIterator($iterator);
 
-        $this->skipLines($iterator, $this->skipLines);
+        $columns = null;
+        foreach (new \LimitIterator($iterator, 0, 1) as $currentLine => $row) {
+            $columns = $row->toArray();
+        }
 
-        $columns = $iterator->current()->toArray();
+        if ($columns === null) {
+            return;
+        }
         $columnCount = count($columns);
 
-        $currentLine = $this->skipLines + 1;
-        while ($iterator->valid()) {
-            $iterator->next();
-
-            $line = $iterator->current()->toArray();
+        foreach ($iterator as $currentLine => $row) {
+            $line = $row->toArray();
             $cellCount = count($line);
-            ++$currentLine;
 
-            if (empty($line)) {
+            if ($line === []) {
                 continue;
             } elseif ($cellCount > $columnCount) {
-                throw new \RuntimeException(strtr(
-                    'The line %line% contains too much values: found %actual% values, was expecting %expected% values.',
-                    [
-                        '%line%' => $currentLine,
-                        '%expected%' => $columnCount,
-                        '%actual%' => $cellCount,
-                    ]
-                ));
+                throw new \RuntimeException(strtr('The line %line% contains too much values: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
             } elseif ($cellCount < $columnCount) {
-                throw new \RuntimeException(strtr(
-                    'The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.',
-                    [
-                        '%line%' => $currentLine,
-                        '%expected%' => $columnCount,
-                        '%actual%' => $cellCount,
-                    ]
-                ));
+                throw new \RuntimeException(strtr('The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
             }
 
             yield array_combine($columns, $line);
         }
     }
 
-    private function skipLines(\Iterator $iterator, int $skipLines): void
+    public function flush(): ResultBucketInterface
     {
-        for ($i = 0; $i < $skipLines; $i++) {
-            $iterator->next();
+        $this->reader->close();
 
-            if (!$iterator->valid()) {
-                throw new \RuntimeException('Reached unexpected end of source.');
+        return new EmptyResultBucket();
+    }
+
+    private function findSheet(string $name): SheetInterface
+    {
+        foreach ($this->reader->getSheetIterator() as $sheet) {
+            if ($sheet->getName() === $name) {
+                return $sheet;
             }
         }
+
+        throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
     }
 }

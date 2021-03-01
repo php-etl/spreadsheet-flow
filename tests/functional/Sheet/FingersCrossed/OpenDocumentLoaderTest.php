@@ -1,27 +1,29 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
+namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Writer\CSV\Writer;
+use Box\Spout\Writer\ODS;
+use functional\Kiboko\Component\Flow\Spreadsheet\OpenDocumentAssertTrait;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
-use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Loader;
+use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
-final class LoaderTest extends TestCase
+final class OpenDocumentLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
+    use OpenDocumentAssertTrait;
 
     private ?FileSystem $fs = null;
-    private ?Writer $writer = null;
+    private ?ODS\Writer $writer = null;
 
     protected function setUp(): void
     {
         $this->fs = FileSystem::factory('vfs://');
         $this->fs->mount();
 
-        $this->writer = WriterEntityFactory::createCSVWriter();
+        $this->writer = WriterEntityFactory::createODSWriter();
     }
 
     protected function tearDown(): void
@@ -32,9 +34,11 @@ final class LoaderTest extends TestCase
         $this->writer = null;
     }
 
-    public function testLoadCsvSuccessful()
+    public function testLoad()
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'spreadsheet_');
+
+        $this->writer->openToFile(/*'vfs://test.ods'*/$path);
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -57,7 +61,25 @@ final class LoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer)
+            new Loader($this->writer, 'Sheet1')
+        );
+
+        $this->assertRowWasWrittenToOpenDocument(
+            /*'vfs://test.ods'*/$path,
+            'Sheet1',
+            ['first name', 'last name'],
+        );
+
+        $this->assertRowWasWrittenToOpenDocument(
+            /*'vfs://test.ods'*/$path,
+            'Sheet1',
+            ['john', 'doe'],
+        );
+
+        $this->assertRowWasWrittenToOpenDocument(
+            /*'vfs://test.ods'*/$path,
+            'Sheet1',
+            ['jean', 'dupont'],
         );
     }
 }

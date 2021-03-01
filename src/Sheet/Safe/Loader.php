@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Common\Entity\Cell;
@@ -10,32 +12,31 @@ use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
+use Psr\Log\LoggerInterface;
 
-class Loader implements LoaderInterface, FlushableInterface
+final class Loader implements LoaderInterface, FlushableInterface
 {
+    private ?LoggerInterface $logger = null;
+
     public function __construct(
-        private WriterInterface $writer
+        private WriterInterface $writer,
+        private string $sheetName
     ) {
+        $this->writer->getCurrentSheet()->setName($this->sheetName);
     }
 
     public function load(): \Generator
     {
-        $isFirstLine = true;
-        $headers = [];
+        $line = yield;
+        $headers = array_keys($line);
+        $this->writer->addRow(
+            new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
+        );
+
         while (true) {
-            $line = yield;
-
-            if ($isFirstLine === true) {
-                $headers = array_keys($line);
-                $this->writer->addRow(
-                    new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
-                );
-                $isFirstLine = false;
-            }
-
             $this->writer->addRow($this->orderColumns($headers, $line));
 
-            yield new AcceptanceResultBucket($line);
+            $line = yield new AcceptanceResultBucket($line);
         }
     }
 
@@ -52,6 +53,19 @@ class Loader implements LoaderInterface, FlushableInterface
     public function flush(): ResultBucketInterface
     {
         $this->writer->close();
+
         return new EmptyResultBucket();
+    }
+
+    public function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    public function setLogger(?LoggerInterface $logger): self
+    {
+        $this->logger = $logger;
+
+        return $this;
     }
 }

@@ -1,27 +1,29 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
+namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Writer\CSV\Writer;
+use Box\Spout\Writer\XLSX;
+use functional\Kiboko\Component\Flow\Spreadsheet\ExcelAssertTrait;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
-use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Loader;
+use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
-final class LoaderTest extends TestCase
+final class ExcelLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
+    use ExcelAssertTrait;
 
     private ?FileSystem $fs = null;
-    private ?Writer $writer = null;
+    private ?XLSX\Writer $writer = null;
 
     protected function setUp(): void
     {
         $this->fs = FileSystem::factory('vfs://');
         $this->fs->mount();
 
-        $this->writer = WriterEntityFactory::createCSVWriter();
+        $this->writer = WriterEntityFactory::createXLSXWriter();
     }
 
     protected function tearDown(): void
@@ -32,9 +34,11 @@ final class LoaderTest extends TestCase
         $this->writer = null;
     }
 
-    public function testLoadCsvSuccessful()
+    public function testLoad()
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'spreadsheet_');
+
+        $this->writer->openToFile(/*'vfs://test.xlsx'*/$path);
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -57,7 +61,25 @@ final class LoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer)
+            new Loader($this->writer, 'Sheet1')
+        );
+
+        $this->assertRowWasWrittenToExcel(
+            /*'vfs://test.xlsx'*/$path,
+            'Sheet1',
+            ['first name', 'last name'],
+        );
+
+        $this->assertRowWasWrittenToExcel(
+            /*'vfs://test.xlsx'*/$path,
+            'Sheet1',
+            ['john', 'doe'],
+        );
+
+        $this->assertRowWasWrittenToExcel(
+            /*'vfs://test.xlsx'*/$path,
+            'Sheet1',
+            ['jean', 'dupont'],
         );
     }
 }
