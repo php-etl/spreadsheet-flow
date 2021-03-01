@@ -46,7 +46,9 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractFile(): void
     {
-        $extractor = new Extractor(__DIR__ . '/../data/users.ods', $this->reader, 'Sheet1', 0);
+        $this->reader->open(__DIR__ . '/../data/users.ods');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [
@@ -57,6 +59,14 @@ final class OpenDocumentExtractorTest extends TestCase
                 [
                     'first name' => 'jean',
                     'last name' => 'dupont',
+                ],
+                [
+                    'first name' => 'amanda',
+                    'last name' => 'cole',
+                ],
+                [
+                    'first name' => 'bernard',
+                    'last name' => 'durand',
                 ],
             ],
             $extractor->extract()
@@ -65,7 +75,9 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractFileSkippingLines(): void
     {
-        $extractor = new Extractor(__DIR__ . '/../data/users-with-2-headers.ods', $this->reader, 'Sheet1', 2);
+        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.ods');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 2);
 
         $this->assertDoesIterateLike(
             [
@@ -77,6 +89,14 @@ final class OpenDocumentExtractorTest extends TestCase
                     'first name' => 'jean',
                     'last name' => 'dupont',
                 ],
+                [
+                    'first name' => 'amanda',
+                    'last name' => 'cole',
+                ],
+                [
+                    'first name' => 'bernard',
+                    'last name' => 'durand',
+                ],
             ],
             $extractor->extract()
         );
@@ -84,7 +104,9 @@ final class OpenDocumentExtractorTest extends TestCase
 
     public function testExtractEmptyFile(): void
     {
-        $extractor = new Extractor(__DIR__ . '/../data/empty-file.ods', $this->reader, 'Sheet1', 0);
+        $this->reader->open(__DIR__ . '/../data/empty-file.ods');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [],

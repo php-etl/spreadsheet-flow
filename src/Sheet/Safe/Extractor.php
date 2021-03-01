@@ -7,40 +7,39 @@ use Box\Spout\Reader\SheetInterface;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
-use Kiboko\Contract\Pipeline\FlushableInterface;
-use Psr\Log\LoggerInterface;
 
-class Extractor implements ExtractorInterface, FlushableInterface
+class Extractor implements ExtractorInterface
 {
-    private ?LoggerInterface $logger = null;
-
     public function __construct(
-        private string $filePath,
         private ReaderInterface $reader,
         private string $sheetName,
         private int $skipLines = 0
-    ) {
-        $this->reader->open($this->filePath);
-    }
+    ) {}
 
     public function extract(): iterable
     {
         $sheet = $this->findSheet($this->sheetName);
 
-        $currentLine = $this->skipLines + 1;
+        $iterator = $sheet->getRowIterator();
+        $iterator = new \LimitIterator($iterator, $this->skipLines);
+        $iterator->rewind();
+        $iterator = new \NoRewindIterator($iterator);
 
-        foreach ($sheet->getRowIterator() as $rowIndex => $row) {
-            if ($rowIndex === $currentLine) {
-                $columns = $row->toArray();
-                $columnCount = count($columns);
-            }
+        $columns = null;
+        foreach (new \LimitIterator($iterator, 0, 1) as $currentLine => $row) {
+            $columns = $row->toArray();
+        }
 
-            if ($rowIndex > $currentLine) {
-                $line = $row->toArray();
-                $cellCount = count($row->getCells());
-            }
+        if ($columns === null) {
+            return;
+        }
+        $columnCount = count($columns);
 
-            if (empty($line)) {
+        foreach ($iterator as $currentLine => $row) {
+            $line = $row->toArray();
+            $cellCount = count($line);
+
+            if ($line === []) {
                 continue;
             } elseif ($cellCount > $columnCount) {
                 throw new \RuntimeException(strtr('The line %line% contains too much values: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
@@ -59,7 +58,7 @@ class Extractor implements ExtractorInterface, FlushableInterface
         return new EmptyResultBucket();
     }
 
-    public function findSheet(string $name): SheetInterface
+    private function findSheet(string $name): SheetInterface
     {
         foreach ($this->reader->getSheetIterator() as $sheet) {
             if ($sheet->getName() === $name) {
@@ -68,17 +67,5 @@ class Extractor implements ExtractorInterface, FlushableInterface
         }
 
         throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
-    }
-
-    public function getLogger(): ?LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    public function setLogger(?LoggerInterface $logger): self
-    {
-        $this->logger = $logger;
-
-        return $this;
     }
 }

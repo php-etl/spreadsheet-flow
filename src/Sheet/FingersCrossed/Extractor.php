@@ -3,40 +3,43 @@
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Reader\ReaderInterface;
+use Box\Spout\Reader\SheetInterface;
+use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
-use Psr\Log\LoggerInterface;
 
 class Extractor implements ExtractorInterface
 {
-    private ?LoggerInterface $logger = null;
-
     public function __construct(
-        private string $filePath,
         private ReaderInterface $reader,
         private string $sheetName,
         private int $skipLines = 0
-    ) {
-        $this->reader->open($this->filePath);
-    }
+    ) {}
 
     public function extract(): iterable
     {
         $sheet = $this->findSheet($this->sheetName);
 
-        $currentLine = $this->skipLines + 1;
+        $iterator = $sheet->getRowIterator();
+        $iterator = new \LimitIterator($iterator, $this->skipLines);
+        $iterator->rewind();
+        $iterator = new \NoRewindIterator($iterator);
 
-        foreach ($sheet->getRowIterator() as $rowIndex => $row) {
-            if ($rowIndex === $currentLine) {
-                $columns = $row->toArray();
-                $columnCount = count($columns);
-            }
+        $columns = null;
+        foreach (new \LimitIterator($iterator, 0, 1) as $currentLine => $row) {
+            $columns = $row->toArray();
+        }
 
-            if ($rowIndex > $currentLine) {
-                $line = $row->toArray();
-                $cellCount = count($row->getCells());
-            }
+        if ($columns === null) {
+            return;
+        }
+        $columnCount = count($columns);
 
-            if (empty($line)) {
+        foreach ($iterator as $currentLine => $row) {
+            $line = $row->toArray();
+            $cellCount = count($line);
+
+            if ($line === []) {
                 continue;
             } elseif ($cellCount > $columnCount) {
                 $line = array_slice($line, 0, $columnCount, true);
@@ -48,7 +51,14 @@ class Extractor implements ExtractorInterface
         }
     }
 
-    public function findSheet(string $name)
+    public function flush(): ResultBucketInterface
+    {
+        $this->reader->close();
+
+        return new EmptyResultBucket();
+    }
+
+    private function findSheet(string $name): SheetInterface
     {
         foreach ($this->reader->getSheetIterator() as $sheet) {
             if ($sheet->getName() === $name) {
@@ -57,17 +67,5 @@ class Extractor implements ExtractorInterface
         }
 
         throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
-    }
-
-    public function getLogger(): ?LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    public function setLogger(?LoggerInterface $logger): self
-    {
-        $this->logger = $logger;
-
-        return $this;
     }
 }

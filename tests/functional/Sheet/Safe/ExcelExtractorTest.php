@@ -50,7 +50,9 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractFile(): void
     {
-        $extractor = new Extractor(__DIR__.'/../data/users.xlsx', $this->reader, 'Sheet1', 0);
+        $this->reader->open(__DIR__ . '/../data/users.xlsx');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [
@@ -61,6 +63,14 @@ final class ExcelExtractorTest extends TestCase
                 [
                     'first name' => 'jean',
                     'last name' => 'dupont',
+                ],
+                [
+                    'first name' => 'amanda',
+                    'last name' => 'cole',
+                ],
+                [
+                    'first name' => 'bernard',
+                    'last name' => 'durand',
                 ],
             ],
             $extractor->extract()
@@ -69,7 +79,9 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractFileSkippingLines(): void
     {
-        $extractor = new Extractor(__DIR__ . '/../data/users-with-2-headers.xlsx', $this->reader, 'Sheet1', 2);
+        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.xlsx');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 2);
 
         $this->assertDoesIterateLike(
             [
@@ -81,6 +93,14 @@ final class ExcelExtractorTest extends TestCase
                     'first name' => 'jean',
                     'last name' => 'dupont',
                 ],
+                [
+                    'first name' => 'amanda',
+                    'last name' => 'cole',
+                ],
+                [
+                    'first name' => 'bernard',
+                    'last name' => 'durand',
+                ],
             ],
             $extractor->extract()
         );
@@ -88,7 +108,9 @@ final class ExcelExtractorTest extends TestCase
 
     public function testExtractEmptyFile(): void
     {
-        $extractor = new Extractor(__DIR__ . '/../data/empty-file.xlsx', $this->reader, 'Sheet1', 0);
+        $this->reader->open(__DIR__ . '/../data/empty-file.xlsx');
+
+        $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
         $this->assertDoesIterateLike(
             [],

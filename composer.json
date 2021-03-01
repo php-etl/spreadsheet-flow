@@ -19,6 +19,10 @@
     },
     "require": {
         "php": "^8.0",
+        "ext-zip": "*",
+        "ext-dom": "*",
+        "ext-xmlreader": "*",
+        "ext-simplexml": "*",
         "php-etl/bucket": "0.1.x-dev",
         "psr/log": "^1.1@dev",
         "box/spout": "^3.1@dev",

@@ -4,6 +4,7 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\ODS;
+use functional\Kiboko\Component\Flow\Spreadsheet\OpenDocumentAssertTrait;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
 use PHPUnit\Framework\TestCase;
@@ -12,6 +13,7 @@ use Vfs\FileSystem;
 final class OpenDocumentLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
+    use OpenDocumentAssertTrait;
 
     private ?FileSystem $fs = null;
     private ?ODS\Writer $writer = null;
@@ -34,7 +36,9 @@ final class OpenDocumentLoaderTest extends TestCase
 
     public function testLoad()
     {
-        $this->writer->openToFile('vfs://test.ods');
+        $path = tempnam(sys_get_temp_dir(), 'spreadsheet_');
+
+        $this->writer->openToFile(/*'vfs://test.ods'*/$path);
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -60,6 +64,22 @@ final class OpenDocumentLoaderTest extends TestCase
             new Loader($this->writer, 'Sheet1')
         );
 
-//        $this->assertFileEquals(__DIR__.'/../data/users.xlsx', 'vfs://test.ods');
+        $this->assertRowWasWrittenToOpenDocument(
+            /*'vfs://test.ods'*/$path,
+            'Sheet1',
+            ['first name', 'last name'],
+        );
+
+        $this->assertRowWasWrittenToOpenDocument(
+            /*'vfs://test.ods'*/$path,
+            'Sheet1',
+            ['john', 'doe'],
+        );
+
+        $this->assertRowWasWrittenToOpenDocument(
+            /*'vfs://test.ods'*/$path,
+            'Sheet1',
+            ['jean', 'dupont'],
+        );
     }
 }

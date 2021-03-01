@@ -4,6 +4,7 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\XLSX;
+use functional\Kiboko\Component\Flow\Spreadsheet\ExcelAssertTrait;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use PHPUnit\Framework\TestCase;
@@ -12,6 +13,7 @@ use Vfs\FileSystem;
 final class ExcelLoaderTest extends TestCase
 {
     use PipelineAssertTrait;
+    use ExcelAssertTrait;
 
     private ?FileSystem $fs = null;
     private ?XLSX\Writer $writer = null;
@@ -34,7 +36,9 @@ final class ExcelLoaderTest extends TestCase
 
     public function testLoad()
     {
-        $this->writer->openToFile( 'vfs://test.xlsx');
+        $path = tempnam(sys_get_temp_dir(), 'spreadsheet_');
+
+        $this->writer->openToFile(/*'vfs://test.xlsx'*/$path);
 
         $this->assertPipelineDoesLoadLike(
             [
@@ -60,6 +64,22 @@ final class ExcelLoaderTest extends TestCase
             new Loader($this->writer, 'Sheet1')
         );
 
-//        $this->assertFileEquals(__DIR__.'/../data/users.xlsx', 'vfs://test.xlsx');
+        $this->assertRowWasWrittenToExcel(
+            /*'vfs://test.xlsx'*/$path,
+            'Sheet1',
+            ['first name', 'last name'],
+        );
+
+        $this->assertRowWasWrittenToExcel(
+            /*'vfs://test.xlsx'*/$path,
+            'Sheet1',
+            ['john', 'doe'],
+        );
+
+        $this->assertRowWasWrittenToExcel(
+            /*'vfs://test.xlsx'*/$path,
+            'Sheet1',
+            ['jean', 'dupont'],
+        );
     }
 }
