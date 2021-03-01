@@ -14,7 +14,8 @@ class Extractor implements ExtractorInterface
         private ReaderInterface $reader,
         private string $sheetName,
         private int $skipLines = 0
-    ) {}
+    ) {
+    }
 
     public function extract(): iterable
     {
