@@ -7,14 +7,20 @@ use Box\Spout\Reader\SheetInterface;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class Extractor implements ExtractorInterface
 {
+    private LoggerInterface $logger;
+
     public function __construct(
         private ReaderInterface $reader,
         private string $sheetName,
-        private int $skipLines = 0
+        private int $skipLines = 0,
+        ?LoggerInterface $logger = null
     ) {
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public function extract(): iterable
