@@ -4,13 +4,14 @@ namespace Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Common\Entity\Cell;
 use Box\Spout\Common\Entity\Row;
-use Box\Spout\Writer\WriterInterface;
+use Box\Spout\Writer\CSV\Writer;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
+use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -19,7 +20,7 @@ class Loader implements LoaderInterface, FlushableInterface
     private LoggerInterface $logger;
 
     public function __construct(
-        private WriterInterface $writer,
+        private Writer $writer,
         private string $delimiter = ',',
         private string $enclosure = '"',
         ?LoggerInterface $logger = null

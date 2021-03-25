@@ -3,7 +3,7 @@
 namespace Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Common\Entity\Row;
-use Box\Spout\Reader\ReaderInterface;
+use Box\Spout\Reader\CSV\Reader;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
@@ -14,7 +14,7 @@ class Extractor implements ExtractorInterface
     private LoggerInterface $logger;
 
     public function __construct(
-        private ReaderInterface $reader,
+        private Reader $reader,
         private int $skipLines = 0,
         private string $delimiter = ',',
         private string $enclosure = '"',
@@ -32,6 +32,10 @@ class Extractor implements ExtractorInterface
         $sheet = $this->reader->getSheetIterator();
 
         $currentLine = $this->skipLines + 1;
+
+        $columns = [];
+        $columnCount = 0;
+        $cellCount = 0;
 
         /**
          * @var int $rowIndex

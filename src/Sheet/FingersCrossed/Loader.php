@@ -6,7 +6,8 @@ namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Common\Entity\Cell;
 use Box\Spout\Common\Entity\Row;
-use Box\Spout\Writer\WriterInterface;
+use Box\Spout\Writer\XLSX\Writer as XLSXWriter;
+use Box\Spout\Writer\ODS\Writer as ODSWriter;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
@@ -20,7 +21,7 @@ final class Loader implements LoaderInterface, FlushableInterface
     private LoggerInterface $logger;
 
     public function __construct(
-        private WriterInterface $writer,
+        private XLSXWriter|ODSWriter $writer,
         private string $sheetName,
         ?LoggerInterface $logger = null
     ) {
