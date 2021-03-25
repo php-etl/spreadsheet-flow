@@ -50,7 +50,7 @@ final class OpenDocumentExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'first name' => 'john',
@@ -69,7 +69,7 @@ final class OpenDocumentExtractorTest extends TestCase
                     'last name' => 'durand',
                 ],
             ],
-            $extractor->extract()
+            $extractor
         );
     }
 
@@ -79,7 +79,7 @@ final class OpenDocumentExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 'Sheet1', 2);
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'first name' => 'john',
@@ -98,7 +98,7 @@ final class OpenDocumentExtractorTest extends TestCase
                     'last name' => 'durand',
                 ],
             ],
-            $extractor->extract()
+            $extractor
         );
     }
 
@@ -108,9 +108,9 @@ final class OpenDocumentExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [],
-            $extractor->extract()
+            $extractor
         );
     }
 }
