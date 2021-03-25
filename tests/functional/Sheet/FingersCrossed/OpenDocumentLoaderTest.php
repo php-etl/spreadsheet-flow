@@ -40,7 +40,7 @@ final class OpenDocumentLoaderTest extends TestCase
 
         $this->writer->openToFile(/*'vfs://test.ods'*/$path);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'first name' => 'john',

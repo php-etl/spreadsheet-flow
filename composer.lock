@@ -489,12 +489,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/phpunit-extension.git",
-                "reference": "f26a35b5974e9f00cc1af34a9b4384026b777f98"
+                "reference": "07d5a51779c869826eed47eb93c549508bb0e84a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/f26a35b5974e9f00cc1af34a9b4384026b777f98",
-                "reference": "f26a35b5974e9f00cc1af34a9b4384026b777f98",
+                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/07d5a51779c869826eed47eb93c549508bb0e84a",
+                "reference": "07d5a51779c869826eed47eb93c549508bb0e84a",
                 "shasum": ""
             },
             "require": {
@@ -502,6 +502,9 @@
                 "php": "^8.0",
                 "php-etl/pipeline": "0.2.x-dev",
                 "phpunit/phpunit": "^9"
+            },
+            "require-dev": {
+                "adlawson/vfs": "dev-develop"
             },
             "default-branch": true,
             "type": "library",
@@ -530,7 +533,7 @@
                 "issues": "https://github.com/php-etl/phpunit-extension/issues",
                 "source": "https://github.com/php-etl/phpunit-extension/tree/master"
             },
-            "time": "2021-03-10T20:45:44+00:00"
+            "time": "2021-03-24T21:52:02+00:00"
         },
         {
             "name": "php-etl/pipeline",
@@ -1202,12 +1205,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "aad51c0706d4feaf8baead8154c7e7ed8c53931d"
+                "reference": "c73c6737305e779771147af66c96ca6a7ed8a741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/aad51c0706d4feaf8baead8154c7e7ed8c53931d",
-                "reference": "aad51c0706d4feaf8baead8154c7e7ed8c53931d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c73c6737305e779771147af66c96ca6a7ed8a741",
+                "reference": "c73c6737305e779771147af66c96ca6a7ed8a741",
                 "shasum": ""
             },
             "require": {
@@ -1297,7 +1300,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T07:49:55+00:00"
+            "time": "2021-03-23T07:16:29+00:00"
         },
         {
             "name": "psr/log",

@@ -36,7 +36,7 @@ final class LoaderTest extends TestCase
     {
         $this->writer->openToFile('vfs://test.csv');
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'first name' => 'john',
