@@ -22,6 +22,7 @@ final class LoaderTest extends TestCase
         $this->fs->mount();
 
         $this->writer = WriterEntityFactory::createCSVWriter();
+        $this->writer = WriterEntityFactory::createCSVWriter();
     }
 
     protected function tearDown(): void
@@ -59,5 +60,67 @@ final class LoaderTest extends TestCase
             ],
             new Loader($this->writer)
         );
+    }
+
+    public function testLoadCsvWithDelimiter()
+    {
+        $this->writer->openToFile('vfs://test.csv');
+
+        $this->assertPipelineLoadsLike(
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            new Loader($this->writer, '|')
+        );
+
+        $this->assertFileEquals(__DIR__.'/../data/usersWithDelimiter.csv', 'vfs://test.csv');
+    }
+
+    public function testLoadCsvWithEnclosure()
+    {
+        $this->writer->openToFile('vfs://test.csv');
+
+        $this->assertPipelineLoadsLike(
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            new Loader($this->writer, '|', '%')
+        );
+
+        $this->assertFileEquals(__DIR__.'/../data/usersWithDelimiterAndEnclosure.csv', 'vfs://test.csv');
     }
 }
