@@ -13,7 +13,6 @@ use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
-use phpDocumentor\Reflection\Types\Array_;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -32,7 +31,7 @@ final class Loader implements LoaderInterface, FlushableInterface
 
     public function load(): \Generator
     {
-        $line = yield new Array_();
+        $line = yield [];
 
         $this->writer->addRow(
             new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
