@@ -11,7 +11,6 @@ use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 final class ExtractorTest extends TestCase
 {
