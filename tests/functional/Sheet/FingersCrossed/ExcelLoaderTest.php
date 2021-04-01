@@ -40,7 +40,7 @@ final class ExcelLoaderTest extends TestCase
 
         $this->writer->openToFile(/*'vfs://test.xlsx'*/$path);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'first name' => 'john',

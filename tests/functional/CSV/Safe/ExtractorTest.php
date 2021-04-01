@@ -47,7 +47,7 @@ final class ExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 0);
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'first name' => 'john',
@@ -58,7 +58,7 @@ final class ExtractorTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            $extractor->extract()
+            $extractor
         );
     }
 

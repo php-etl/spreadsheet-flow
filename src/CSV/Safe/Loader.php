@@ -4,18 +4,25 @@ namespace Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Common\Entity\Cell;
 use Box\Spout\Common\Entity\Row;
-use Box\Spout\Writer\CSV\Writer;
+use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class Loader implements LoaderInterface, FlushableInterface
 {
-    public function __construct(private Writer $writer)
-    {
+    private LoggerInterface $logger;
+
+    public function __construct(
+        private WriterInterface $writer,
+        ?LoggerInterface $logger = null
+    ) {
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public function load(): \Generator
