@@ -16,15 +16,9 @@ class Extractor implements ExtractorInterface
     public function __construct(
         private Reader $reader,
         private int $skipLines = 0,
-        private string $delimiter = ',',
-        private string $enclosure = '"',
-        private string $encoding = 'UTF-8',
         ?LoggerInterface $logger = null
     ) {
         $this->logger = $logger ?? new NullLogger();
-        $this->reader->setFieldDelimiter($this->delimiter);
-        $this->reader->setFieldEnclosure($this->enclosure);
-        $this->reader->setEncoding($this->encoding);
     }
 
     public function extract(): iterable
