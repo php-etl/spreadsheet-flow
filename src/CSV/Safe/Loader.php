@@ -20,13 +20,9 @@ class Loader implements LoaderInterface, FlushableInterface
 
     public function __construct(
         private WriterInterface $writer,
-        private string $delimiter = ',',
-        private string $enclosure = '"',
         ?LoggerInterface $logger = null
     ) {
         $this->logger = $logger ?? new NullLogger();
-        $this->writer->setFieldDelimiter($this->delimiter);
-        $this->writer->setFieldEnclosure($this->enclosure);
     }
 
     public function load(): \Generator
