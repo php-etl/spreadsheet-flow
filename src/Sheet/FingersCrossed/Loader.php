@@ -6,8 +6,7 @@ namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Common\Entity\Cell;
 use Box\Spout\Common\Entity\Row;
-use Box\Spout\Writer\XLSX\Writer as XLSXWriter;
-use Box\Spout\Writer\ODS\Writer as ODSWriter;
+use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
@@ -21,17 +20,21 @@ final class Loader implements LoaderInterface, FlushableInterface
     private LoggerInterface $logger;
 
     public function __construct(
-        private XLSXWriter|ODSWriter $writer,
+        private WriterInterface $writer,
         private string $sheetName,
         ?LoggerInterface $logger = null
     ) {
+        /** @phpstan-ignore-next-line */
         $this->writer->getCurrentSheet()->setName($this->sheetName);
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /**
+     * @return \Generator
+     */
     public function load(): \Generator
     {
-        $line = yield [];
+        $line = yield;
 
         $this->writer->addRow(
             new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)

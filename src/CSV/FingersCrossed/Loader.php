@@ -25,9 +25,12 @@ class Loader implements LoaderInterface, FlushableInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /**
+     * @return \Generator
+     */
     public function load(): \Generator
     {
-        $line = yield [];
+        $line = yield;
         $this->writer->addRow(
             new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
         );
