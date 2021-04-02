@@ -24,6 +24,8 @@ final class Loader implements LoaderInterface, FlushableInterface
         private string $sheetName,
         ?LoggerInterface $logger = null
     ) {
+        $this->writer->getCurrentSheet()->setName($this->sheetName);
+        $this->logger = $logger ?? new NullLogger();
         /** @phpstan-ignore-next-line */
         $this->writer->getCurrentSheet()->setName($this->sheetName);
         $this->logger = $logger ?? new NullLogger();
