@@ -27,6 +27,10 @@ class Extractor implements ExtractorInterface
 
         $currentLine = $this->skipLines + 1;
 
+        $columns = [];
+        $columnCount = 0;
+        $cellCount = 0;
+
         /**
          * @var int $rowIndex
          * @var Row $row

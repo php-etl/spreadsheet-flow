@@ -7,6 +7,7 @@ use Box\Spout\Writer\CSV\Writer;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Loader;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
 use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
@@ -59,5 +60,36 @@ final class LoaderTest extends TestCase
             ],
             new Loader($this->writer)
         );
+    }
+
+    public function testLoadCsvWithLogger()
+    {
+        $this->writer->openToFile('vfs://test.csv');
+
+        $this->assertPipelineLoadsLike(
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            [
+                [
+                    'first name' => 'john',
+                    'last name' => 'doe',
+                ],
+                [
+                    'first name' => 'jean',
+                    'last name' => 'dupont',
+                ],
+            ],
+            new Loader($this->writer, new TestLogger())
+        );
+
+        $this->assertFileEquals(__DIR__.'/../data/users.csv', 'vfs://test.csv');
     }
 }

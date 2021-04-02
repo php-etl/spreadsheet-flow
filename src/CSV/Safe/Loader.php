@@ -25,6 +25,9 @@ class Loader implements LoaderInterface, FlushableInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /**
+     * @return \Generator
+     */
     public function load(): \Generator
     {
         $line = yield;
