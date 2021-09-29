@@ -4,15 +4,17 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\CSV\Writer;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Loader;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Psr\Log\Test\TestLogger;
 use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use LoaderAssertTrait;
 
     private ?FileSystem $fs = null;
     private ?Writer $writer = null;
@@ -37,7 +39,7 @@ final class LoaderTest extends TestCase
     {
         $this->writer->openToFile('vfs://test.csv');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'first name' => 'john',
@@ -66,7 +68,7 @@ final class LoaderTest extends TestCase
     {
         $this->writer->openToFile('vfs://test.csv');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'first name' => 'john',
@@ -91,5 +93,13 @@ final class LoaderTest extends TestCase
         );
 
         $this->assertFileEquals(__DIR__.'/../data/users.csv', 'vfs://test.csv');
+    }
+
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new \Kiboko\Component\Pipeline\PipelineRunner(
+            new NullLogger()
+        );
     }
 }

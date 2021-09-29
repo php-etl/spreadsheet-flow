@@ -4,14 +4,16 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\CSV\Writer;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed\Loader;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use LoaderAssertTrait;
 
     private ?FileSystem $fs = null;
     private ?Writer $writer = null;
@@ -36,7 +38,7 @@ final class LoaderTest extends TestCase
     {
         $this->writer->openToFile('vfs://test.csv');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'first name' => 'john',
@@ -58,6 +60,13 @@ final class LoaderTest extends TestCase
                 ],
             ],
             new Loader($this->writer)
+        );
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new \Kiboko\Component\Pipeline\PipelineRunner(
+            new NullLogger()
         );
     }
 }

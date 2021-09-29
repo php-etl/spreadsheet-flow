@@ -4,6 +4,7 @@ namespace Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Common\Entity\Row;
 use Box\Spout\Reader\ReaderInterface;
+use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
@@ -54,7 +55,7 @@ class Extractor implements ExtractorInterface
                 $line = array_pad($line, $columnCount - $cellCount, null);
             }
 
-            yield array_combine($columns, $line);
+            yield new AcceptanceResultBucket(array_combine($columns, $line));
         }
     }
 }

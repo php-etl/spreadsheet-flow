@@ -5,14 +5,16 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\XLSX;
 use functional\Kiboko\Component\Flow\Spreadsheet\ExcelAssertTrait;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Loader;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class ExcelLoaderTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use LoaderAssertTrait;
     use ExcelAssertTrait;
 
     private ?FileSystem $fs = null;
@@ -40,7 +42,7 @@ final class ExcelLoaderTest extends TestCase
 
         $this->writer->openToFile(/*'vfs://test.xlsx'*/$path);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'first name' => 'john',
@@ -80,6 +82,13 @@ final class ExcelLoaderTest extends TestCase
             /*'vfs://test.xlsx'*/$path,
             'Sheet1',
             ['jean', 'dupont'],
+        );
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new \Kiboko\Component\Pipeline\PipelineRunner(
+            new NullLogger()
         );
     }
 }
