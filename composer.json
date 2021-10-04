@@ -48,7 +48,6 @@
         "ext-xdebug": "*",
         "adlawson/vfs": "dev-develop",
         "phpunit/phpunit": "^9.0",
-        "php-etl/pipeline": "^0.4.0",
         "php-etl/phpunit-extension": "*"
     }
 }
