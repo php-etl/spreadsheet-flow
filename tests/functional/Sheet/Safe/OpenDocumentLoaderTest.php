@@ -5,11 +5,11 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\ODS;
 use functional\Kiboko\Component\Flow\Spreadsheet\OpenDocumentAssertTrait;
+use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Loader;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class OpenDocumentLoaderTest extends TestCase
@@ -87,8 +87,6 @@ final class OpenDocumentLoaderTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
-        return new \Kiboko\Component\Pipeline\PipelineRunner(
-            new NullLogger()
-        );
+        return new PipelineRunner();
     }
 }

@@ -7,11 +7,11 @@ use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\CSV\Creator\InternalEntityFactory;
 use Box\Spout\Reader\CSV\Manager\OptionsManager;
 use Box\Spout\Reader\CSV\Reader;
+use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class ExtractorTest extends TestCase
@@ -78,8 +78,6 @@ final class ExtractorTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
-        return new \Kiboko\Component\Pipeline\PipelineRunner(
-            new NullLogger()
-        );
+        return new PipelineRunner();
     }
 }

@@ -6,11 +6,11 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\XLSX;
+use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Extractor;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class ExcelExtractorTest extends TestCase
@@ -122,8 +122,6 @@ final class ExcelExtractorTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
-        return new \Kiboko\Component\Pipeline\PipelineRunner(
-            new NullLogger()
-        );
+        return new PipelineRunner();
     }
 }

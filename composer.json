@@ -27,7 +27,6 @@
         "php-etl/bucket": "^0.2.0",
         "psr/log": "^1.1",
         "box/spout": "^3.1",
-        "php-etl/phpunit-extension": "*",
         "php-etl/pipeline-contracts": "^0.3.0"
     },
     "autoload": {
@@ -49,6 +48,7 @@
         "ext-xdebug": "*",
         "adlawson/vfs": "dev-develop",
         "phpunit/phpunit": "^9.0",
-        "php-etl/pipeline": "^0.4.0"
+        "php-etl/pipeline": "^0.4.0",
+        "php-etl/phpunit-extension": "*"
     }
 }
