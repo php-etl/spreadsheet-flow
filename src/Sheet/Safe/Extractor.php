@@ -4,6 +4,7 @@ namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\SheetInterface;
+use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
@@ -54,7 +55,7 @@ class Extractor implements ExtractorInterface
                 throw new \RuntimeException(strtr('The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
             }
 
-            yield array_combine($columns, $line);
+            yield new AcceptanceResultBucket(array_combine($columns, $line));
         }
     }
 

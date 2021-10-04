@@ -6,14 +6,16 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
 use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\XLSX;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
+use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Extractor;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
 final class ExcelExtractorTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use ExtractorAssertTrait;
 
     private ?FileSystem $fs = null;
     private ?XLSX\Reader $reader = null;
@@ -54,7 +56,7 @@ final class ExcelExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'first name' => 'john',
@@ -83,7 +85,7 @@ final class ExcelExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 'Sheet1', 2);
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'first name' => 'john',
@@ -112,9 +114,14 @@ final class ExcelExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [],
             $extractor
         );
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new PipelineRunner();
     }
 }

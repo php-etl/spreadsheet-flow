@@ -7,14 +7,16 @@ use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\CSV\Creator\InternalEntityFactory;
 use Box\Spout\Reader\CSV\Manager\OptionsManager;
 use Box\Spout\Reader\CSV\Reader;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
+use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
 final class ExtractorTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use ExtractorAssertTrait;
 
     private ?FileSystem $fs = null;
     private ?Reader $reader = null;
@@ -47,7 +49,7 @@ final class ExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 0);
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'first name' => 'john',
@@ -68,9 +70,14 @@ final class ExtractorTest extends TestCase
 
         $extractor = new Extractor($this->reader, 0);
 
-        $this->assertDoesIterateLike(
+        $this->assertExtractorExtractsLike(
             [],
-            $extractor->extract()
+            $extractor
         );
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new PipelineRunner();
     }
 }
