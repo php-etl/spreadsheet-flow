@@ -13,12 +13,12 @@ trait ExcelAssertTrait
 {
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
 
-    protected function assertRowWasWrittenToExcel(string $actual, string $sheet, array $expected, $message = '')
+    protected function assertRowWasWrittenToExcel(string $actual, string $sheet, array $expected, $message = ''): void
     {
         $this->assertThat($actual, new RowWasWrittenToExcel(new TraversableContainsEqual($expected), $sheet), $message);
     }
 
-    protected function assertRowWasNotWrittenToExcel(string $actual, string $sheet, array $expected, $message = '')
+    protected function assertRowWasNotWrittenToExcel(string $actual, string $sheet, array $expected, $message = ''): void
     {
         $this->assertThat($actual, new LogicalNot(new RowWasWrittenToExcel(new TraversableContainsEqual($expected), $sheet)), $message);
     }

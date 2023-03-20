@@ -1,16 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\CSV\Writer;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
-use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\FingersCrossed\Loader;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class LoaderTest extends TestCase
 {
     use LoaderAssertTrait;
@@ -34,7 +41,10 @@ final class LoaderTest extends TestCase
         $this->writer = null;
     }
 
-    public function testLoadCsvSuccessful()
+    /**
+     * @test
+     */
+    public function loadCsvSuccessful(): void
     {
         $this->writer->openToFile('vfs://test.csv');
 

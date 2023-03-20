@@ -13,12 +13,12 @@ trait OpenDocumentAssertTrait
 {
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
 
-    protected function assertRowWasWrittenToOpenDocument(string $actual, string $sheet, array $expected, $message = '')
+    protected function assertRowWasWrittenToOpenDocument(string $actual, string $sheet, array $expected, $message = ''): void
     {
         $this->assertThat($actual, new RowWasWrittenToOpenDocument(new TraversableContainsEqual($expected), $sheet), $message);
     }
 
-    protected function assertRowWasNotWrittenToOpenDocument(string $actual, string $sheet, array $expected, $message = '')
+    protected function assertRowWasNotWrittenToOpenDocument(string $actual, string $sheet, array $expected, $message = ''): void
     {
         $this->assertThat($actual, new LogicalNot(new RowWasWrittenToOpenDocument(new TraversableContainsEqual($expected), $sheet)), $message);
     }

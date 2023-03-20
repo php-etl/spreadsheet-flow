@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Common\Entity\Cell;
@@ -7,7 +9,6 @@ use Box\Spout\Common\Entity\Row;
 use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
-use Kiboko\Component\Flow\Spreadsheet\Sheet;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
@@ -16,18 +17,10 @@ use Psr\Log\NullLogger;
 
 class Loader implements LoaderInterface, FlushableInterface
 {
-    private LoggerInterface $logger;
-
-    public function __construct(
-        private WriterInterface $writer,
-        ?LoggerInterface $logger = null
-    ) {
-        $this->logger = $logger ?? new NullLogger();
+    public function __construct(private readonly WriterInterface $writer, private readonly LoggerInterface $logger = new NullLogger())
+    {
     }
 
-    /**
-     * @return \Generator
-     */
     public function load(): \Generator
     {
         $line = yield;

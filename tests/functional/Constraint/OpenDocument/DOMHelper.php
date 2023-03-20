@@ -15,7 +15,7 @@ final class DOMHelper
     {
         /** @var \DOMNode $node */
         foreach ($node->childNodes as $node) {
-            if ($node->nodeName !== 'table:table-row') {
+            if ('table:table-row' !== $node->nodeName) {
                 continue;
             }
 
@@ -27,7 +27,7 @@ final class DOMHelper
     {
         /** @var \DOMNode $node */
         foreach ($row->childNodes as $node) {
-            if ($node->nodeName !== 'table:table-cell') {
+            if ('table:table-cell' !== $node->nodeName) {
                 continue;
             }
 

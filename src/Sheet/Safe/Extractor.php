@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
 use Box\Spout\Reader\ReaderInterface;
@@ -13,15 +15,8 @@ use Psr\Log\NullLogger;
 
 class Extractor implements ExtractorInterface
 {
-    private LoggerInterface $logger;
-
-    public function __construct(
-        private ReaderInterface $reader,
-        private string $sheetName,
-        private int $skipLines = 0,
-        ?LoggerInterface $logger = null
-    ) {
-        $this->logger = $logger ?? new NullLogger();
+    public function __construct(private readonly ReaderInterface $reader, private readonly string $sheetName, private readonly int $skipLines = 0, private readonly LoggerInterface $logger = new NullLogger())
+    {
     }
 
     public function extract(): iterable
@@ -38,20 +33,22 @@ class Extractor implements ExtractorInterface
             $columns = $row->toArray();
         }
 
-        if ($columns === null) {
+        if (null === $columns) {
             return;
         }
-        $columnCount = count($columns);
+        $columnCount = is_countable($columns) ? \count($columns) : 0;
 
         foreach ($iterator as $currentLine => $row) {
             $line = $row->toArray();
-            $cellCount = count($line);
+            $cellCount = is_countable($line) ? \count($line) : 0;
 
-            if ($line === []) {
+            if ([] === $line) {
                 continue;
-            } elseif ($cellCount > $columnCount) {
+            }
+            if ($cellCount > $columnCount) {
                 throw new \RuntimeException(strtr('The line %line% contains too much values: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
-            } elseif ($cellCount < $columnCount) {
+            }
+            if ($cellCount < $columnCount) {
                 throw new \RuntimeException(strtr('The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.', ['%line%' => $currentLine, '%expected%' => $columnCount, '%actual%' => $cellCount]));
             }
 

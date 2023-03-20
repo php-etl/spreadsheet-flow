@@ -15,23 +15,17 @@ use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-final class Loader implements LoaderInterface, FlushableInterface
+final readonly class Loader implements LoaderInterface, FlushableInterface
 {
-    private LoggerInterface $logger;
-
     public function __construct(
         private WriterInterface $writer,
         private string $sheetName,
-        ?LoggerInterface $logger = null
+        private LoggerInterface $logger = new NullLogger()
     ) {
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $this->writer->getCurrentSheet()->setName($this->sheetName);
-        $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * @return \Generator
-     */
     public function load(): \Generator
     {
         $line = yield;
