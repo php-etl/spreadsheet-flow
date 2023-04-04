@@ -10,8 +10,10 @@ use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed\Extractor;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
-use Vfs\FileSystem;
 
 /**
  * @internal
@@ -22,13 +24,12 @@ final class OpenDocumentExtractorTest extends TestCase
 {
     use ExtractorAssertTrait;
 
-    private ?FileSystem $fs = null;
+    private ?vfsStreamDirectory $fs = null;
     private ?ODS\Reader $reader = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
+        $this->fs = vfsStream::setup();
 
         $helperFactory = new ODS\Creator\HelperFactory();
         $managerFactory = new ODS\Creator\ManagerFactory();
@@ -45,8 +46,8 @@ final class OpenDocumentExtractorTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
         $this->fs = null;
+        vfsStreamWrapper::unregister();
 
         $this->reader = null;
     }

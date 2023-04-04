@@ -13,8 +13,10 @@ use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
-use Vfs\FileSystem;
 
 /**
  * @internal
@@ -25,13 +27,12 @@ final class ExtractorTest extends TestCase
 {
     use ExtractorAssertTrait;
 
-    private ?FileSystem $fs = null;
+    private ?vfsStreamDirectory $fs = null;
     private ?Reader $reader = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
+        $this->fs = vfsStream::setup();
 
         $this->reader = new Reader(
             new OptionsManager(),
@@ -44,8 +45,8 @@ final class ExtractorTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
         $this->fs = null;
+        vfsStreamWrapper::unregister();
 
         $this->reader = null;
     }
