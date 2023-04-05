@@ -5,6 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
       - name: Cs-Fixer
         run: |
           wget -q https://cs.symfony.com/download/php-cs-fixer-v3.phar -O php-cs-fixer
@@ -33,7 +37,7 @@ jobs:
           php_version: '8.2'
           php_extensions: zip xdebug
       - name: Run tests & generate Coverage
-        run: bin/phpunit --configuration=phpunit.xml tests --coverage-html var/coverage --whitelist=src
+        run: bin/phpunit --coverage-html var/coverage
       - name: Store coverage files
         uses: actions/upload-artifact@v3
         with:
@@ -53,7 +57,6 @@ jobs:
         with:
           args: --prefer-dist
           php_version: '8.2'
-          php_extensions: zip xdebug
       - name: PHPStan
         uses: php-actions/phpstan@v3
         with:

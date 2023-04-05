@@ -14,6 +14,7 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 
 /**
  * @internal
@@ -47,7 +48,9 @@ final class LoaderTest extends TestCase
      */
     public function loadCsvSuccessful(): void
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'csv');
+
+        $this->writer->openToFile($path);
 
         $this->assertLoaderLoadsLike(
             [
@@ -79,7 +82,9 @@ final class LoaderTest extends TestCase
      */
     public function loadCsvWithLogger(): void
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'csv');
+
+        $this->writer->openToFile($path);
 
         $this->assertLoaderLoadsLike(
             [
@@ -102,10 +107,10 @@ final class LoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer, new TestLogger())
+            new Loader($this->writer, new NullLogger())
         );
 
-        $this->assertFileEquals(__DIR__.'/../data/users.csv', 'vfs://test.csv');
+        $this->assertFileEquals(__DIR__.'/../data/users.csv', $path);
     }
 
     public function pipelineRunner(): PipelineRunnerInterface

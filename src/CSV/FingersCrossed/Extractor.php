@@ -11,10 +11,13 @@ use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Extractor implements ExtractorInterface
+readonly class Extractor implements ExtractorInterface
 {
-    public function __construct(private readonly ReaderInterface $reader, private readonly int $skipLines = 0, private readonly LoggerInterface $logger = new NullLogger())
-    {
+    public function __construct(
+        private ReaderInterface $reader,
+        private int $skipLines = 0,
+        private LoggerInterface $logger = new NullLogger()
+    ) {
     }
 
     public function extract(): iterable

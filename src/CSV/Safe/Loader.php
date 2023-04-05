@@ -15,10 +15,12 @@ use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Loader implements LoaderInterface, FlushableInterface
+readonly class Loader implements LoaderInterface, FlushableInterface
 {
-    public function __construct(private readonly WriterInterface $writer, private readonly LoggerInterface $logger = new NullLogger())
-    {
+    public function __construct(
+        private WriterInterface $writer,
+        private LoggerInterface $logger = new NullLogger()
+    ) {
     }
 
     public function load(): \Generator

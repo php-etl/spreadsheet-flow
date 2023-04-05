@@ -47,7 +47,9 @@ final class LoaderTest extends TestCase
      */
     public function loadCsvSuccessful(): void
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'csv_');
+
+        $this->writer->openToFile($path);
 
         $this->assertLoaderLoadsLike(
             [
