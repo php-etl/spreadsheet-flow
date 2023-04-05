@@ -15,9 +15,11 @@ jobs:
         with:
           args: --prefer-dist
           php_version: '8.2'
+          php_extensions: zip xdebug
       - name: PHPStan
         uses: php-actions/phpstan@v3
         with:
           path: src/
           level: 8
           php_version: '8.2'
+          php_extensions: zip xdebug

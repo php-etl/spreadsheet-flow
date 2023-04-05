@@ -21,7 +21,7 @@ jobs:
 
             -   uses: "ramsey/composer-install@v2"
 
-            -   run: vendor/bin/rector --ansi
+            -   run: bin/rector --ansi
 
             -
                 # commit only to core contributors who have repository access
