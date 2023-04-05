@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 
+use Box\Spout\Reader\Exception\ReaderNotOpenedException;
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\SheetInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
@@ -69,12 +70,18 @@ readonly class Extractor implements ExtractorInterface
 
     private function findSheet(string $name): SheetInterface
     {
-        foreach ($this->reader->getSheetIterator() as $sheet) {
-            if ($sheet->getName() === $name) {
-                return $sheet;
+        try {
+            $iterator = $this->reader->getSheetIterator();
+
+            foreach ($iterator as $sheet) {
+                if ($sheet->getName() === $name) {
+                    return $sheet;
+                }
             }
+        } catch (ReaderNotOpenedException $exception) {
+            $this->logger->error('Impossible to extract data from the given Spreadsheet file.', ['message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
         }
 
-        throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
+        throw new \OutOfBoundsException(strtr('No sheet with the name %name% can be found.', ['%name%' => $name]));
     }
 }

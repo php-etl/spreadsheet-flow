@@ -6,6 +6,8 @@ namespace Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Common\Entity\Cell;
 use Box\Spout\Common\Entity\Row;
+use Box\Spout\Common\Exception\IOException;
+use Box\Spout\Writer\Exception\WriterNotOpenedException;
 use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
@@ -27,12 +29,21 @@ readonly class Loader implements LoaderInterface, FlushableInterface
     {
         $line = yield;
         $headers = array_keys($line);
-        $this->writer->addRow(
-            new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
-        );
+        try {
+            $this->writer->addRow(
+                new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
+            );
+        } catch (WriterNotOpenedException|IOException $exception) {
+            $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
+            return;
+        }
 
         while (true) {
-            $this->writer->addRow($this->orderColumns($headers, $line));
+            try {
+                $this->writer->addRow($this->orderColumns($headers, $line));
+            } catch (WriterNotOpenedException|IOException $exception) {
+                $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
+            }
 
             $line = yield new AcceptanceResultBucket($line);
         }
