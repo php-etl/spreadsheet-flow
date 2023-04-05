@@ -38,6 +38,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
             );
         } catch (WriterNotOpenedException|IOException $exception) {
             $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
+
             return;
         }
 
