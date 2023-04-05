@@ -7,23 +7,29 @@ namespace functional\Kiboko\Component\Flow\Spreadsheet\Sheet\Safe;
 use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\XLSX;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
-use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\Sheet\Safe\Extractor;
+use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
-use Vfs\FileSystem;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ExcelExtractorTest extends TestCase
 {
     use ExtractorAssertTrait;
 
-    private ?FileSystem $fs = null;
+    private ?vfsStreamDirectory $fs = null;
     private ?XLSX\Reader $reader = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
+        $this->fs = vfsStream::setup();
 
         $helperFactory = new XLSX\Creator\HelperFactory();
         $managerFactory = new XLSX\Creator\ManagerFactory(
@@ -44,15 +50,18 @@ final class ExcelExtractorTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
         $this->fs = null;
+        vfsStreamWrapper::unregister();
 
         $this->reader = null;
     }
 
-    public function testExtractFile(): void
+    /**
+     * @test
+     */
+    public function extractFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users.xlsx');
+        $this->reader->open(__DIR__.'/../data/users.xlsx');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 
@@ -79,9 +88,12 @@ final class ExcelExtractorTest extends TestCase
         );
     }
 
-    public function testExtractFileSkippingLines(): void
+    /**
+     * @test
+     */
+    public function extractFileSkippingLines(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users-with-2-headers.xlsx');
+        $this->reader->open(__DIR__.'/../data/users-with-2-headers.xlsx');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 2);
 
@@ -108,9 +120,12 @@ final class ExcelExtractorTest extends TestCase
         );
     }
 
-    public function testExtractEmptyFile(): void
+    /**
+     * @test
+     */
+    public function extractEmptyFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/empty-file.xlsx');
+        $this->reader->open(__DIR__.'/../data/empty-file.xlsx');
 
         $extractor = new Extractor($this->reader, 'Sheet1', 0);
 

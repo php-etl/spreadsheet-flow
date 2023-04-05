@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\Constraint;
 
@@ -43,7 +45,8 @@ final class RowWasWrittenToExcel extends Constraint
     ];
 
     public function __construct(private Constraint $constraint, private string $sheet)
-    {}
+    {
+    }
 
     private function toFailureString(int $failureCode): string
     {
@@ -55,7 +58,7 @@ final class RowWasWrittenToExcel extends Constraint
      */
     public function toString(): string
     {
-        return \sprintf('Excel file with written row %s', $this->constraint->toString());
+        return sprintf('Excel file with written row %s', $this->constraint->toString());
     }
 
     /**
@@ -70,10 +73,10 @@ final class RowWasWrittenToExcel extends Constraint
         if (true !== ($failureCode = $zip->open($other, \ZipArchive::RDONLY))) {
             $this->fail($other, sprintf('could not open zip file, got %s', $this->toFailureString($failureCode)));
         }
-        $stream = $zip->getStream('xl/worksheets/' . strtolower($this->sheet) . '.xml');
+        $stream = $zip->getStream('xl/worksheets/'.strtolower($this->sheet).'.xml');
 
-        $xml = \simplexml_load_string(\stream_get_contents($stream));
+        $xml = simplexml_load_string(stream_get_contents($stream));
 
-        return $this->constraint->matches(Excel\DOMHelper::toArray(\dom_import_simplexml($xml)));
+        return $this->constraint->matches(Excel\DOMHelper::toArray(dom_import_simplexml($xml)));
     }
 }

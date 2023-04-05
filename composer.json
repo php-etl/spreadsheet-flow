@@ -16,18 +16,30 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "php-http/discovery": true
+        }
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-zip": "*",
         "ext-dom": "*",
         "ext-xmlreader": "*",
         "ext-simplexml": "*",
-        "php-etl/bucket": "^0.2.0",
-        "psr/log": "^1.1",
+        "php-etl/bucket": "^0.3.0",
         "box/spout": "^3.1",
-        "php-etl/pipeline-contracts": "^0.3.0"
+        "php-etl/pipeline-contracts": "^0.4.0",
+        "psr/log": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "infection/infection": "^0.26.18",
+        "rector/rector": "^0.15.23",
+        "php-etl/phpunit-extension": "^0.5.0"
     },
     "autoload": {
         "psr-4": {
@@ -41,13 +53,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.1.x-dev"
+            "dev-main": "0.2.x-dev"
         }
-    },
-    "require-dev": {
-        "ext-xdebug": "*",
-        "adlawson/vfs": "dev-develop",
-        "phpunit/phpunit": "^9.0",
-        "php-etl/phpunit-extension": "*"
     }
 }

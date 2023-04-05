@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
@@ -11,20 +13,26 @@ use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Extractor;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
-use Vfs\FileSystem;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ExtractorTest extends TestCase
 {
     use ExtractorAssertTrait;
 
-    private ?FileSystem $fs = null;
+    private ?vfsStreamDirectory $fs = null;
     private ?Reader $reader = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
+        $this->fs = vfsStream::setup();
 
         $this->reader = new Reader(
             new OptionsManager(),
@@ -37,15 +45,18 @@ final class ExtractorTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
         $this->fs = null;
+        vfsStreamWrapper::unregister();
 
         $this->reader = null;
     }
 
-    public function testExtractCSVFile()
+    /**
+     * @test
+     */
+    public function extractCSVFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/users.csv');
+        $this->reader->open(__DIR__.'/../data/users.csv');
 
         $extractor = new Extractor($this->reader, 0);
 
@@ -64,9 +75,12 @@ final class ExtractorTest extends TestCase
         );
     }
 
-    public function testExtractEmptyCSVFile(): void
+    /**
+     * @test
+     */
+    public function extractEmptyCSVFile(): void
     {
-        $this->reader->open(__DIR__ . '/../data/empty-file.csv');
+        $this->reader->open(__DIR__.'/../data/empty-file.csv');
 
         $extractor = new Extractor($this->reader, 0);
 

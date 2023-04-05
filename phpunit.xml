@@ -1,19 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" stopOnError="false" stopOnFailure="false" stopOnWarning="false" stopOnIncomplete="false" stopOnRisky="false" stopOnSkipped="false" failOnRisky="false" failOnWarning="true" beStrictAboutChangesToGlobalState="false" beStrictAboutOutputDuringTests="false" beStrictAboutResourceUsageDuringSmallTests="false" beStrictAboutTestsThatDoNotTestAnything="false" beStrictAboutTodoAnnotatedTests="false" beStrictAboutCoversAnnotation="false" enforceTimeLimit="false" verbose="false">
-  <coverage/>
-  <groups>
-    <exclude>
-      <group>vendor</group>
-    </exclude>
-  </groups>
-  <testsuites>
-    <testsuite name="unit">
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
-  <php>
-    <ini name="error_reporting" value="-1"/>
-    <ini name="memory_limit" value="-1"/>
-  </php>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         backupGlobals="true"
+         colors="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         stopOnRisky="false"
+         timeoutForSmallTests="1"
+         timeoutForMediumTests="10"
+         timeoutForLargeTests="60"
+         cacheDirectory=".phpunit.cache"
+>
+    <testsuites>
+        <testsuite name="Functional tests">
+            <directory>tests/functional/</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+    <php>
+        <ini name="allow_url_include" value="1"/>
+    </php>
 </phpunit>

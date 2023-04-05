@@ -1,43 +1,56 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Component\Flow\Spreadsheet\CSV\Safe;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\CSV\Writer;
 use functional\Kiboko\Component\Flow\Spreadsheet\PipelineRunner;
-use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\Flow\Spreadsheet\CSV\Safe\Loader;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
-use Vfs\FileSystem;
+use Psr\Log\NullLogger;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class LoaderTest extends TestCase
 {
     use LoaderAssertTrait;
 
-    private ?FileSystem $fs = null;
+    private ?vfsStreamDirectory $fs = null;
     private ?Writer $writer = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
+        $this->fs = vfsStream::setup();
 
         $this->writer = WriterEntityFactory::createCSVWriter();
     }
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
         $this->fs = null;
+        vfsStreamWrapper::unregister();
 
         $this->writer = null;
     }
 
-    public function testLoadCsvSuccessful()
+    /**
+     * @test
+     */
+    public function loadCsvSuccessful(): void
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'csv');
+
+        $this->writer->openToFile($path);
 
         $this->assertLoaderLoadsLike(
             [
@@ -64,9 +77,14 @@ final class LoaderTest extends TestCase
         );
     }
 
-    public function testLoadCsvWithLogger()
+    /**
+     * @test
+     */
+    public function loadCsvWithLogger(): void
     {
-        $this->writer->openToFile('vfs://test.csv');
+        $path = tempnam(sys_get_temp_dir(), 'csv');
+
+        $this->writer->openToFile($path);
 
         $this->assertLoaderLoadsLike(
             [
@@ -89,12 +107,11 @@ final class LoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer, new TestLogger())
+            new Loader($this->writer, new NullLogger())
         );
 
-        $this->assertFileEquals(__DIR__.'/../data/users.csv', 'vfs://test.csv');
+        $this->assertFileEquals(__DIR__.'/../data/users.csv', $path);
     }
-
 
     public function pipelineRunner(): PipelineRunnerInterface
     {

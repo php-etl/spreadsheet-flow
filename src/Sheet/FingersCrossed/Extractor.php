@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Spreadsheet\Sheet\FingersCrossed;
 
+use Box\Spout\Reader\Exception\ReaderNotOpenedException;
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\SheetInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
@@ -11,17 +14,14 @@ use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Extractor implements ExtractorInterface
+readonly class Extractor implements ExtractorInterface
 {
-    private LoggerInterface $logger;
-
     public function __construct(
         private ReaderInterface $reader,
         private string $sheetName,
         private int $skipLines = 0,
-        ?LoggerInterface $logger = null
+        private LoggerInterface $logger = new NullLogger()
     ) {
-        $this->logger = $logger ?? new NullLogger();
     }
 
     public function extract(): iterable
@@ -38,19 +38,20 @@ class Extractor implements ExtractorInterface
             $columns = $row->toArray();
         }
 
-        if ($columns === null) {
+        if (null === $columns) {
             return;
         }
-        $columnCount = count($columns);
+        $columnCount = is_countable($columns) ? \count($columns) : 0;
 
         foreach ($iterator as $currentLine => $row) {
             $line = $row->toArray();
-            $cellCount = count($line);
+            $cellCount = is_countable($line) ? \count($line) : 0;
 
-            if ($line === []) {
+            if ([] === $line) {
                 continue;
-            } elseif ($cellCount > $columnCount) {
-                $line = array_slice($line, 0, $columnCount, true);
+            }
+            if ($cellCount > $columnCount) {
+                $line = \array_slice($line, 0, $columnCount, true);
             } elseif ($cellCount < $columnCount) {
                 $line = array_pad($line, $columnCount - $cellCount, null);
             }
@@ -68,12 +69,18 @@ class Extractor implements ExtractorInterface
 
     private function findSheet(string $name): SheetInterface
     {
-        foreach ($this->reader->getSheetIterator() as $sheet) {
-            if ($sheet->getName() === $name) {
-                return $sheet;
+        try {
+            $iterator = $this->reader->getSheetIterator();
+
+            foreach ($iterator as $sheet) {
+                if ($sheet->getName() === $name) {
+                    return $sheet;
+                }
             }
+        } catch (ReaderNotOpenedException $exception) {
+            $this->logger->error('Impossible to extract data from the given Spreadsheet file.', ['message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
         }
 
-        throw new \OutOfBoundsException('No sheet with the name %name% can be found.', ['%name%' => $name]);
+        throw new \OutOfBoundsException(strtr('No sheet with the name %name% can be found.', ['%name%' => $name]));
     }
 }
