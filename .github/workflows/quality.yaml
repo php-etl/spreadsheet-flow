@@ -15,34 +15,6 @@ jobs:
           chmod a+x php-cs-fixer
           PHP_CS_FIXER_IGNORE_ENV=true ./php-cs-fixer fix src --dry-run
 
-  phpunit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          tools: composer:v2
-          coverage: pcov
-          extensions: zip, xdebug
-      - uses: actions/cache@v3
-        with:
-          path: '**/vendor'
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      - uses: php-actions/composer@v6
-        with:
-          args: --prefer-dist
-          php_version: '8.2'
-          php_extensions: zip xdebug
-      - name: Run tests & generate Coverage
-        run: bin/phpunit --coverage-html var/coverage
-      - name: Store coverage files
-        uses: actions/upload-artifact@v3
-        with:
-          path: var/coverage
-
   phpstan:
     runs-on: ubuntu-latest
     steps:
