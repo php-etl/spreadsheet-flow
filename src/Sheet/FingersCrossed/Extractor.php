@@ -21,8 +21,7 @@ readonly class Extractor implements ExtractorInterface
         private string $sheetName,
         private int $skipLines = 0,
         private LoggerInterface $logger = new NullLogger()
-    ) {
-    }
+    ) {}
 
     public function extract(): iterable
     {

@@ -36,7 +36,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
             $this->writer->addRow(
                 new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
             );
-        } catch (WriterNotOpenedException|IOException $exception) {
+        } catch (IOException|WriterNotOpenedException $exception) {
             $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
 
             return;
@@ -45,7 +45,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
         while (true) {
             try {
                 $this->writer->addRow($this->orderColumns($headers, $line));
-            } catch (WriterNotOpenedException|IOException $exception) {
+            } catch (IOException|WriterNotOpenedException $exception) {
                 $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
             }
 
