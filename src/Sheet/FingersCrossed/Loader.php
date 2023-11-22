@@ -46,7 +46,8 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
             );
         }
 
-        while ($line) {
+        /* @phpstan-ignore-next-line */
+        while (true) {
             try {
                 $this->writer->addRow(
                     new Row(array_map(fn ($value) => new Cell($value), $line), null)
@@ -58,6 +59,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
                     $exception,
                     $line
                 );
+                continue;
             }
 
             $line = yield new AcceptanceResultBucket($line);

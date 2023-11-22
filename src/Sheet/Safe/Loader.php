@@ -46,7 +46,8 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
             );
         }
 
-        while ($line) {
+        /* @phpstan-ignore-next-line */
+        while (true) {
             try {
                 $this->writer->addRow($this->orderColumns($headers, $line));
             } catch (IOException|WriterNotOpenedException $exception) {
@@ -56,6 +57,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
                     $exception,
                     $line
                 );
+                continue;
             }
 
             $line = yield new AcceptanceResultBucket($line);
