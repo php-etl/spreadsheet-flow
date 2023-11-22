@@ -11,6 +11,7 @@ use Box\Spout\Writer\Exception\WriterNotOpenedException;
 use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Component\Bucket\RejectionResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
@@ -34,8 +35,11 @@ readonly class Loader implements LoaderInterface, FlushableInterface
             );
         } catch (IOException|WriterNotOpenedException $exception) {
             $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
-
-            return;
+            $line = yield new RejectionResultBucket(
+                'Impossible to load data to the given CSV file.',
+                $exception,
+                $line
+            );
         }
 
         while ($line) {
@@ -43,6 +47,11 @@ readonly class Loader implements LoaderInterface, FlushableInterface
                 $this->writer->addRow($this->orderColumns($headers, $line));
             } catch (IOException|WriterNotOpenedException $exception) {
                 $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
+                $line = yield new RejectionResultBucket(
+                    'Impossible to load data to the given CSV file.',
+                    $exception,
+                    $line
+                );
             }
 
             $line = yield new AcceptanceResultBucket($line);
