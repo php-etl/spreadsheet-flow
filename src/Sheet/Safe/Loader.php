@@ -30,7 +30,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
 
     public function load(): \Generator
     {
-        $line = yield;
+        $line = yield new EmptyResultBucket();
         $headers = array_keys($line);
         try {
             $this->writer->addRow(
@@ -42,7 +42,7 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
             return;
         }
 
-        while (true) {
+        while ($line) {
             try {
                 $this->writer->addRow($this->orderColumns($headers, $line));
             } catch (IOException|WriterNotOpenedException $exception) {

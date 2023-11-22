@@ -26,7 +26,7 @@ readonly class Loader implements LoaderInterface, FlushableInterface
 
     public function load(): \Generator
     {
-        $line = yield;
+        $line = yield new EmptyResultBucket();
         try {
             $this->writer->addRow(
                 new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
@@ -37,7 +37,7 @@ readonly class Loader implements LoaderInterface, FlushableInterface
             return;
         }
 
-        while (true) {
+        while ($line) {
             try {
                 $this->writer->addRow(
                     new Row(array_map(fn ($value) => new Cell($value), $line), null)
