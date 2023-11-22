@@ -11,6 +11,7 @@ use Box\Spout\Writer\Exception\WriterNotOpenedException;
 use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Component\Bucket\RejectionResultBucket;
 use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
@@ -30,25 +31,35 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
 
     public function load(): \Generator
     {
-        $line = yield;
+        $line = yield new EmptyResultBucket();
 
         try {
             $this->writer->addRow(
                 new Row(array_map(fn ($value) => new Cell($value), array_keys($line)), null)
             );
-        } catch (WriterNotOpenedException|IOException $exception) {
+        } catch (IOException|WriterNotOpenedException $exception) {
             $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
-
-            return;
+            $line = yield new RejectionResultBucket(
+                'Impossible to load data to the given CSV file.',
+                $exception,
+                $line
+            );
         }
 
+        /* @phpstan-ignore-next-line */
         while (true) {
             try {
                 $this->writer->addRow(
                     new Row(array_map(fn ($value) => new Cell($value), $line), null)
                 );
-            } catch (WriterNotOpenedException|IOException $exception) {
+            } catch (IOException|WriterNotOpenedException $exception) {
                 $this->logger->error('Impossible to load data to the given CSV file.', ['line' => $line, 'message' => $exception->getMessage(), 'previous' => $exception->getPrevious()]);
+                $line = yield new RejectionResultBucket(
+                    'Impossible to load data to the given CSV file.',
+                    $exception,
+                    $line
+                );
+                continue;
             }
 
             $line = yield new AcceptanceResultBucket($line);
