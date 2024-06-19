@@ -18,7 +18,8 @@ readonly class Extractor implements ExtractorInterface
         private ReaderInterface $reader,
         private int $skipLines = 0,
         private LoggerInterface $logger = new NullLogger()
-    ) {}
+    ) {
+    }
 
     public function extract(): iterable
     {
