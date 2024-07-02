@@ -23,7 +23,8 @@ readonly class Loader implements LoaderInterface, FlushableInterface
     public function __construct(
         private WriterInterface $writer,
         private LoggerInterface $logger = new NullLogger()
-    ) {}
+    ) {
+    }
 
     public function load(): \Generator
     {
