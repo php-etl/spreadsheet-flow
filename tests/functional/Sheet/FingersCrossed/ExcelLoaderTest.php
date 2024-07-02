@@ -74,8 +74,10 @@ final class ExcelLoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer, 'Sheet1')
+            new Loader($this->writer)
         );
+
+        $this->writer->close();
 
         $this->assertRowWasWrittenToExcel(
             /* 'vfs://test.xlsx' */ $path,

@@ -10,6 +10,7 @@ use Box\Spout\Common\Exception\IOException;
 use Box\Spout\Writer\Exception\WriterNotOpenedException;
 use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
+use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -24,7 +25,7 @@ final readonly class Loader implements LoaderInterface
 
     public function load(): \Generator
     {
-        $line = yield;
+        $line = yield new EmptyResultBucket();
         $headers = array_keys($line);
         try {
             $this->writer->addRow(
@@ -36,6 +37,7 @@ final readonly class Loader implements LoaderInterface
             return;
         }
 
+        /* @phpstan-ignore-next-line */
         while (true) {
             try {
                 $this->writer->addRow($this->orderColumns($headers, $line));
