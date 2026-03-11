@@ -17,6 +17,9 @@
     "prefer-stable": true,
     "config": {
         "bin-dir": "bin",
+        "platform": {
+            "ext-zip": "1.0"
+        },
         "allow-plugins": {
             "infection/extension-installer": true,
             "php-http/discovery": true
@@ -38,7 +41,7 @@
         "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^2.1",
         "friendsofphp/php-cs-fixer": "^3.38",
-        "infection/infection": "^0.26.18",
+        "infection/infection": "^0.28",
         "rector/rector": "^2.3",
         "php-etl/phpunit-extension": "0.7.*"
     },
