@@ -20,6 +20,6 @@ jobs:
         uses: php-actions/phpstan@v3
         with:
           path: src/
-          level: 7
+          level: 8
           php_version: '8.2'
           php_extensions: zip xdebug
