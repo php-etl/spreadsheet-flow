@@ -74,8 +74,10 @@ final class OpenDocumentLoaderTest extends TestCase
                     'last name' => 'dupont',
                 ],
             ],
-            new Loader($this->writer, 'Sheet1')
+            new Loader($this->writer)
         );
+
+        $this->writer->close();
 
         $this->assertRowWasWrittenToOpenDocument(
             /* 'vfs://test.ods' */ $path,

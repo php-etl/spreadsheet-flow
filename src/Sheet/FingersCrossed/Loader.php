@@ -12,21 +12,16 @@ use Box\Spout\Writer\WriterInterface;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Component\Bucket\RejectionResultBucket;
-use Kiboko\Contract\Bucket\ResultBucketInterface;
-use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-final readonly class Loader implements LoaderInterface, FlushableInterface
+final readonly class Loader implements LoaderInterface
 {
     public function __construct(
         private WriterInterface $writer,
-        private string $sheetName,
         private LoggerInterface $logger = new NullLogger()
     ) {
-        /* @phpstan-ignore-next-line */
-        $this->writer->getCurrentSheet()->setName($this->sheetName);
     }
 
     public function load(): \Generator
@@ -64,12 +59,5 @@ final readonly class Loader implements LoaderInterface, FlushableInterface
 
             $line = yield new AcceptanceResultBucket($line);
         }
-    }
-
-    public function flush(): ResultBucketInterface
-    {
-        $this->writer->close();
-
-        return new EmptyResultBucket();
     }
 }
